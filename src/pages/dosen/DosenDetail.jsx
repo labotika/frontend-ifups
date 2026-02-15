@@ -70,7 +70,7 @@ const DosenDetail = () => {
                   </h3>
                   {dosen.nip && (
                     <p className="text-[10px] text-secondary font-semibold uppercase tracking-wide opacity-80">
-                      NIP. {dosen.nip}
+                      {dosen.jabatan}
                     </p>
                   )}
                 </div>

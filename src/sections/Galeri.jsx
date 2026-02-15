@@ -41,7 +41,7 @@ const GalleryCard = ({ item }) => {
   };
 
   return (
-    <div className="group relative break-inside-avoid rounded-2xl overflow-hidden bg-gray-100 shadow-md hover:shadow-xl transition-shadow duration-300">
+    <div className="group relative break-inside-avoid rounded-2xl overflow-hidden bg-gray-100 shadow-md hover:shadow-xl transition-shadow duration-300 ">
       {/* IMAGE */}
       <img
         src={item.image}

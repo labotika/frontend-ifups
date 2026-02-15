@@ -93,7 +93,7 @@ const Dosen = () => {
                     {/* Menampilkan NIP jika ada */}
                     {lecturer.nip && (
                       <p className="text-[10px] text-secondary font-semibold tracking-wide uppercase opacity-80">
-                        NIP. {lecturer.nip}
+                         {lecturer.jabatan}
                       </p>
                     )}
 

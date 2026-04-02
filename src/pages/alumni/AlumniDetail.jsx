@@ -1,4 +1,5 @@
 import { useParams, Link } from "react-router-dom";
+<<<<<<< HEAD
 import { ArrowLeftCircle, Trophy } from "lucide-react";
 // --- 1. Import useFetch dan Hapus allAlumni ---
 import useFetch from "../../hooks/useFetch";
@@ -41,6 +42,21 @@ const AlumniDetail = () => {
         >
           Kembali ke Daftar
         </Link>
+=======
+// --- VVV Ikon yang tidak perlu dihapus VVV ---
+import { ArrowLeftCircle, Trophy } from "lucide-react"; // Hanya ArrowLeftCircle dan Trophy (untuk kejuaraan)
+import { allAlumni } from "../../data/alumniData";
+
+const AlumniDetail = () => {
+  const { id } = useParams();
+  const alumnus = allAlumni.find((item) => item.id === parseInt(id));
+
+  if (!alumnus) {
+    return (
+      <div className="py-24 bg-white min-h-screen flex flex-col items-center justify-center text-center px-4">
+        <h1 className="text-4xl font-bold text-primary mb-4">Data Tidak Ditemukan</h1>
+        <Link to="/alumni" className="text-secondary underline">Kembali ke Daftar</Link>
+>>>>>>> 2bec0fb5386a17cc0d59bf1f67bb75a626640362
       </div>
     );
   }
@@ -58,6 +74,7 @@ const AlumniDetail = () => {
 
       <div className="container mx-auto px-4 max-w-5xl">
         <div className="flex flex-col md:flex-row gap-12 items-start">
+<<<<<<< HEAD
           {/* --- Kolom Kiri: Foto --- */}
           <div className="w-full md:w-1/3 flex flex-col items-center md:items-start">
             <div className="relative w-full aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl mb-6">
@@ -67,6 +84,14 @@ const AlumniDetail = () => {
                   alumnus.foto_url ||
                   "https://placehold.co/400x533/cccccc/ffffff?text=No+Image"
                 }
+=======
+          
+          {/* --- Kolom Kiri: Foto & Info Dasar --- */}
+          <div className="w-full md:w-1/3 flex flex-col items-center md:items-start">
+            <div className="relative w-full aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl mb-6">
+              <img
+                src={alumnus.foto}
+>>>>>>> 2bec0fb5386a17cc0d59bf1f67bb75a626640362
                 alt={alumnus.nama}
                 className="w-full h-full object-cover"
                 onError={(e) => {
@@ -74,6 +99,7 @@ const AlumniDetail = () => {
                   e.target.src = `https://placehold.co/400x533/cccccc/ffffff?text=${alumnus.nama}`;
                 }}
               />
+<<<<<<< HEAD
               {/* Overlay Nama */}
               <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-secondary via-secondary/80 to-transparent pt-20 pb-6 px-6">
                 <h2 className="text-2xl font-bold text-primary">
@@ -101,10 +127,34 @@ const AlumniDetail = () => {
               <p className="text-3xl font-bold text-primary leading-tight">
                 {alumnus.kejuaraan || "Detail kejuaraan tidak tersedia"}
               </p>
+=======
+              {/* Overlay Nama di Foto */}
+              <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-secondary via-secondary/80 to-transparent pt-20 pb-6 px-6">
+                 <h2 className="text-2xl font-bold text-primary">{alumnus.nama}</h2>
+                 <p className="text-blue-900 text-sm mt-1">Angkatan {alumnus.angkatan}</p>
+              </div>
+            </div>
+
+            {/* --- TOMBOL LINKEDIN DIHAPUS --- */}
+          </div>
+
+          {/* --- Kolom Kanan: Detail (Hanya Kejuaraan & Deskripsi) --- */}
+          <div className="w-full md:w-2/3 space-y-8">
+            
+            {/* Header Kejuaraan (Menggunakan data 'pekerjaan' sebagai judul prestasi/kejuaraan) */}
+            <div>
+              <h3 className="text-lg font-semibold text-gray-500 mb-1 flex items-center gap-2">
+                <Trophy size={20} className="text-secondary" /> {/* Ikon Trophy */}
+                Kejuaraan / Prestasi
+              </h3>
+              {/* Menggunakan data 'pekerjaan' sebagai placeholder 'Kejuaraan' jika data khusus belum ada */}
+              <p className="text-3xl font-bold text-primary leading-tight">{alumnus.pekerjaan}</p>
+>>>>>>> 2bec0fb5386a17cc0d59bf1f67bb75a626640362
             </div>
 
             <div className="w-full h-px bg-gray-200"></div>
 
+<<<<<<< HEAD
             {/* Deskripsi */}
             <div>
               <h3 className="text-xl font-bold text-primary mb-4">Deskripsi</h3>
@@ -115,6 +165,18 @@ const AlumniDetail = () => {
                   "Belum ada deskripsi yang ditambahkan."}
               </p>
             </div>
+=======
+            {/* Deskripsi (Bio) */}
+            <div>
+              <h3 className="text-xl font-bold text-primary mb-4">Deskripsi</h3>
+              <p className="text-gray-700 leading-relaxed text-lg">
+                {alumnus.bio || "Belum ada deskripsi yang ditambahkan."}
+              </p>
+            </div>
+
+            {/* --- BAGIAN KEAHLIAN & PENDIDIKAN DIHAPUS --- */}
+
+>>>>>>> 2bec0fb5386a17cc0d59bf1f67bb75a626640362
           </div>
         </div>
       </div>
@@ -122,4 +184,8 @@ const AlumniDetail = () => {
   );
 };
 
+<<<<<<< HEAD
 export default AlumniDetail;
+=======
+export default AlumniDetail;
+>>>>>>> 2bec0fb5386a17cc0d59bf1f67bb75a626640362

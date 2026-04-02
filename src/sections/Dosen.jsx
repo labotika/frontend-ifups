@@ -1,7 +1,15 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+<<<<<<< HEAD
 import useFetch from "../hooks/useFetch"; // 1. Menggunakan Custom Hook
 
+=======
+import { allDosen } from "../data/dosenData"; // 1. Impor data statis
+
+// 2. Ambil 4 dosen pertama dari data statis
+const featuredLecturers = allDosen.slice(0, 4);
+
+>>>>>>> 2bec0fb5386a17cc0d59bf1f67bb75a626640362
 // --- Varian Animasi ---
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
@@ -81,6 +89,10 @@ const Dosen = () => {
   return (
     <section id="dosen" className="py-20 bg-gray-50 overflow-hidden">
       <div className="container mx-auto px-4">
+<<<<<<< HEAD
+=======
+        
+>>>>>>> 2bec0fb5386a17cc0d59bf1f67bb75a626640362
         {/* Judul Section */}
         <motion.div
           className="text-center mb-16"
@@ -102,11 +114,17 @@ const Dosen = () => {
           variants={gridContainer}
           initial="hidden"
           whileInView="visible"
+<<<<<<< HEAD
           viewport={{ once: true, amount: 0.1 }}
+=======
+          viewport={{ once: true, amount: 0.1 }} 
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto"
+>>>>>>> 2bec0fb5386a17cc0d59bf1f67bb75a626640362
         >
           {featuredLecturers.map((lecturer) => (
             <motion.div
               key={lecturer.id}
+<<<<<<< HEAD
               variants={cardItem}
               // Style Kartu: Rounded-2xl, Shadow, Border Bawah Kuning
               className="group bg-white shadow-md hover:shadow-xl transition-all overflow-hidden hover:-translate-y-1 border-b-4 border-secondary relative rounded-2xl max-w-xs mx-auto sm:max-w-none w-full"
@@ -148,6 +166,44 @@ const Dosen = () => {
                   </div>
                 </div>
               </Link>
+=======
+              variants={cardItem} 
+              // Desain Kartu (Rounded, Shadow, Ramping di Mobile)
+              className="group bg-white shadow-md hover:shadow-xl transition-all overflow-hidden hover:-translate-y-1 border-b-4 border-secondary relative rounded-2xl max-w-xs mx-auto sm:max-w-none w-full" 
+            >
+              {/* --- LINK KE DETAIL DOSEN DITAMBAHKAN --- */}
+              <Link to={`/dosen/${lecturer.id}`} className="block h-full w-full">
+                <div className="relative overflow-hidden h-full">
+                  {/* Gambar Tinggi (h-96) */}
+                  <img
+                    src={lecturer.foto}
+                    alt={lecturer.nama}
+                    className="w-full h-96 object-cover transition-transform duration-500 group-hover:scale-105" 
+                    onError={(e) => { e.target.onerror = null; e.target.src="https://placehold.co/400x500/cccccc/ffffff?text=Foto+Dosen"; }}
+                  />
+                  
+                  {/* Overlay Gradasi Biru */}
+                  <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-primary via-primary/90 to-transparent pt-28 pb-5 px-5 flex flex-col justify-end"> 
+                    
+                    {/* Nama Dosen */}
+                    <h3 className="text-base font-bold text-white leading-snug mb-1 drop-shadow-md">
+                      {lecturer.nama}
+                    </h3>
+                    
+                     
+
+                    {/* Menampilkan NIP jika ada */}
+                    {lecturer.nip && (
+                      <p className="text-[10px] text-secondary font-semibold tracking-wide uppercase opacity-80">
+                         {lecturer.jabatan}
+                      </p>
+                    )}
+
+                  </div>
+                </div>
+              </Link>
+               {/* --- AKHIR LINK --- */}
+>>>>>>> 2bec0fb5386a17cc0d59bf1f67bb75a626640362
             </motion.div>
           ))}
         </motion.div>

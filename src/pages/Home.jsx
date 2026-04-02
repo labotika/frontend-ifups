@@ -6,6 +6,7 @@ import Dosen from '../sections/Dosen';
 import Alumni from '../sections/Alumni';
 import Berita from '../sections/Berita';
 import Kontak from '../sections/Kontak';
+import Galeri from "../sections/Galeri"; // <-- Impor ini
 
 const Home = () => {
   return (
@@ -17,6 +18,7 @@ const Home = () => {
       <Dosen />
       <Alumni />
       <Berita />
+      <Galeri /> 
       <Kontak />
     </main>
   );

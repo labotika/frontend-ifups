@@ -7,7 +7,6 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="md:col-span-2">
             <div className="flex items-center space-x-3 mb-4">
-              {/* Logo IFUPS */}
               <img
                 src="/Logo IFUPS.png"
                 alt="Logo IFUPS"
@@ -35,9 +34,7 @@ const Footer = () => {
               Menghasilkan lulusan yang kompeten di bidang teknologi informasi.
             </p>
 
-            {/* --- VVV IKON SOSIAL MEDIA DIPERBARUI (SVG LEBIH BERSIH) VVV --- */}
             <div className="flex space-x-4 items-center">
-              {/* Facebook */}
               <a
                 href="https://www.facebook.com/share/1M51TP8HXT/"
                 aria-label="Facebook"
@@ -56,7 +53,6 @@ const Footer = () => {
                 </svg>
               </a>
 
-              {/* Instagram */}
               <a
                 href="https://www.instagram.com/informatika.upstegal"
                 aria-label="Instagram"
@@ -75,7 +71,6 @@ const Footer = () => {
                 </svg>
               </a>
 
-              {/* YouTube */}
               <a
                 href="https://www.youtube.com/@ftikpancasakti3480"
                 aria-label="YouTube"
@@ -94,10 +89,7 @@ const Footer = () => {
                 </svg>
               </a>
             </div>
-            {/* --- ^^^ AKHIR PERUBAHAN IKON SOSIAL MEDIA ^^^ --- */}
           </div>
-
-          {/* Link Cepat */}
           <div>
             <h3 className="text-lg font-semibold mb-4">Info Selanjutnya</h3>
             <ul className="space-y-2 text-sm">
@@ -144,7 +136,6 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Kontak */}
           <div>
             <h3 className="text-lg font-semibold mb-4">Kontak</h3>
             <address className="not-italic text-gray-300 text-sm space-y-1">
@@ -169,7 +160,6 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Footer bawah */}
         <div className="border-t border-gray-700 mt-8 pt-8 text-center text-sm text-gray-400">
           <p>
             &copy; {new Date().getFullYear()} Prodi Informatika UPS Tegal. All

@@ -1,81 +1,56 @@
 import { useState, useEffect } from "react";
 import {
-<<<<<<< HEAD
-  Menu,
-  X,
-  ChevronsLeft,
-  ChevronsRight,
-  Home,
-  Info,
-  Users,
-  GraduationCap,
-  Briefcase,
-  Newspaper,
-  Image,
-  Mail,
-  Target, // <-- IKON DITAMBAHKAN DI SINI
-=======
   Menu, X, ChevronsLeft, ChevronsRight,
   Home, Info, Users, GraduationCap,
   Briefcase, Newspaper, Image, Mail,
-  Target, Download, ChevronDown, ChevronRight, FileText // Tambah ikon baru
->>>>>>> 2bec0fb5386a17cc0d59bf1f67bb75a626640362
+  Target, Download, ChevronDown, ChevronRight, FileText,
 } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { ROUTES } from "../../constants/routes";
+
+const HASH_TO_ROUTE_MAP = {
+  "#dosen": ROUTES.DOSEN,
+  "#berita": ROUTES.BERITA,
+  "#alumni": ROUTES.PRESTASI,
+  "#galeri": ROUTES.GALERI,
+  "#tentang": ROUTES.ABOUT,
+  "#unduhan": ROUTES.UNDUHAN,
+};
+
+const ROUTE_TO_HASH_MAP = Object.fromEntries(
+  Object.entries(HASH_TO_ROUTE_MAP).map(([hash, route]) => [route, hash])
+);
+
+const NAV_ITEMS = [
+  { name: "Home", href: "#home", icon: Home },
+  { name: "Visi Misi", href: "#visi-misi", icon: Target },
+  { name: "Tentang", href: "#tentang", icon: Info },
+  { name: "Organisasi", href: "#organisasi", icon: Users },
+  { name: "Dosen", href: "#dosen", icon: GraduationCap },
+  { name: "Alumni", href: "#alumni", icon: Briefcase },
+  { name: "Berita", href: "#berita", icon: Newspaper },
+  { name: "Galeri", href: "#galeri", icon: Image },
+  { name: "Unduhan", href: "#unduhan", icon: Download },
+  { name: "Kontak", href: "#kontak", icon: Mail },
+];
 
 const Navbar = ({ onToggleCollapse }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [activeHash, setActiveHash] = useState(window.location.hash || "#home");
-  
-  // --- STATE UNTUK DROPDOWN ---
-  const [openDropdown, setOpenDropdown] = useState(null); // Menyimpan nama menu yang terbuka
+  const [openDropdown, setOpenDropdown] = useState(null);
 
   const location = useLocation();
   const navigate = useNavigate();
-  const isHomePage = location.pathname === '/';
-
-  const navItems = [
-    { name: "Home", href: "#home", icon: Home },
-    { name: "Visi Misi", href: "#visi-misi", icon: Target },
-    { name: "Tentang", href: "#tentang", icon: Info },
-    { name: "Organisasi", href: "#organisasi", icon: Users },
-    { name: "Dosen", href: "#dosen", icon: GraduationCap },
-    { name: "Alumni", href: "#alumni", icon: Briefcase },
-    { name: "Berita", href: "#berita", icon: Newspaper },
-<<<<<<< HEAD
-=======
-    { name: "Galeri", href: "#galeri", icon: Image },
-    
-    // --- MENU BARU DENGAN DROPDOWN ---
-    
-    // ---------------------------------
->>>>>>> 2bec0fb5386a17cc0d59bf1f67bb75a626640362
-
-    { name: "Kontak", href: "#kontak", icon: Mail },
-    { 
-      name: "Unduhan", 
-      icon: Download, 
-      isDropdown: true, // Penanda dropdown
-      subItems: [
-        // Pastikan file-file ini ada di folder public/files/ Anda agar download berhasil
-        { name: "Panduan Akademik", file: "/files/panduan-akademik.pdf" },
-        { name: "Kalender Akademik", file: "/files/kalender-2024.pdf" },
-        { name: "Formulir Pendaftaran", file: "/files/form-daftar.pdf" },
-      ]
-    },
-  ];
+  const isHomePage = location.pathname === ROUTES.HOME;
 
   useEffect(() => {
     if (!isHomePage) {
-      if (location.pathname.startsWith('/dosen')) setActiveHash('#dosen');
-      else if (location.pathname.startsWith('/berita')) setActiveHash('#berita');
-      else if (location.pathname.startsWith('/alumni')) setActiveHash('#alumni');
-      else if (location.pathname.startsWith('/about')) setActiveHash('#tentang');
-      else if (location.pathname.startsWith('/galeri')) setActiveHash('#galeri');
-      else setActiveHash(''); 
-      
+      const matchingHash = Object.entries(ROUTE_TO_HASH_MAP).find(
+        ([route]) => location.pathname.startsWith(route)
+      );
+      setActiveHash(matchingHash ? matchingHash[1] : "");
       if (onToggleCollapse) onToggleCollapse(false);
       return;
     }
@@ -93,82 +68,50 @@ const Navbar = ({ onToggleCollapse }) => {
           }
         });
       },
-<<<<<<< HEAD
-
-      { root: null, rootMargin: "0px 0px -70% 0px", threshold: 0.1 }
+      { root: null, rootMargin: "-40% 0px -60% 0px", threshold: 0 }
     );
 
-    navItems.forEach((item) => {
-      const section = document.querySelector(item.href);
-      if (section) observer.observe(section);
-=======
-      { root: null, rootMargin: "-40% 0px -60% 0px", threshold: 0 } 
-    );
-
-    navItems.forEach((item) => {
-      if (item.href && item.href.startsWith('#')) {
+    NAV_ITEMS.forEach((item) => {
+      if (item.href?.startsWith("#")) {
         const section = document.querySelector(item.href);
         if (section) observer.observe(section);
       }
->>>>>>> 2bec0fb5386a17cc0d59bf1f67bb75a626640362
     });
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
       observer.disconnect();
     };
-<<<<<<< HEAD
-  }, [isCollapsed, onToggleCollapse]);
-=======
   }, [isCollapsed, onToggleCollapse, isHomePage, location.pathname]);
->>>>>>> 2bec0fb5386a17cc0d59bf1f67bb75a626640362
 
   const handleCollapse = () => {
     const newState = !isCollapsed;
     setIsCollapsed(newState);
-    setOpenDropdown(null); // Tutup dropdown saat collapse
+    setOpenDropdown(null);
     if (onToggleCollapse) onToggleCollapse(newState);
   };
 
-<<<<<<< HEAD
-  const handleLinkClick = (e, href) => {
-    e.preventDefault();
-
-    const section = document.querySelector(href);
-
-    if (section) {
-      section.scrollIntoView({ behavior: "smooth" });
-    }
-
-    window.history.pushState(null, null, href);
-
-=======
   const handleLinkClick = (e, item) => {
-    // --- LOGIKA DROPDOWN ---
     if (item.isDropdown) {
       e.preventDefault();
-      // Toggle dropdown (buka/tutup)
       setOpenDropdown(openDropdown === item.name ? null : item.name);
-      return; // Jangan navigasi atau tutup sidebar dulu
+      return;
     }
 
-    // --- LOGIKA LINK BIASA ---
     if (!isHomePage) {
-       e.preventDefault();
-       if (item.href === '#dosen') navigate('/dosen');
-       else if (item.href === '#berita') navigate('/berita');
-       else if (item.href === '#alumni') navigate('/alumni');
-       else if (item.href === '#galeri') navigate('/galeri'); 
-       else if (item.href === '#tentang') navigate('/about');
-       else {
-         navigate('/');
-         setTimeout(() => {
-            const section = document.querySelector(item.href);
-            if (section) section.scrollIntoView({ behavior: "smooth" });
-         }, 100);
-       }
-       setIsSidebarOpen(false);
-       return;
+      e.preventDefault();
+      const targetRoute = HASH_TO_ROUTE_MAP[item.href];
+      if (targetRoute) {
+        navigate(targetRoute);
+      } else {
+        navigate(ROUTES.HOME);
+        setTimeout(() => {
+          const section = document.querySelector(item.href);
+          if (section) section.scrollIntoView({ behavior: "smooth" });
+        }, 100);
+      }
+      setIsSidebarOpen(false);
+      return;
     }
 
     e.preventDefault();
@@ -178,27 +121,18 @@ const Navbar = ({ onToggleCollapse }) => {
       section.scrollIntoView({ behavior: "smooth" });
     }
     window.history.pushState(null, null, item.href);
->>>>>>> 2bec0fb5386a17cc0d59bf1f67bb75a626640362
     setIsSidebarOpen(false);
   };
 
-  // --- FUNGSI DOWNLOAD YANG DIPERBARUI ---
   const handleDownload = (fileUrl, fileName) => {
-    // Membuat elemen link sementara untuk memicu download
-    const link = document.createElement('a');
+    const link = document.createElement("a");
     link.href = fileUrl;
-    link.setAttribute('download', fileName || 'download'); // Atribut download memaksa browser mengunduh
-    link.setAttribute('target', '_blank'); // Buka di tab baru sebagai fallback
+    link.setAttribute("download", fileName || "download");
+    link.setAttribute("target", "_blank");
     document.body.appendChild(link);
-    
-    // Klik link secara programatis
     link.click();
-    
-    // Bersihkan elemen link
     document.body.removeChild(link);
-    
-    // Tutup sidebar mobile setelah klik
-    setIsSidebarOpen(false); 
+    setIsSidebarOpen(false);
   };
 
   const sidebarWidthClass = isCollapsed ? "w-20" : "w-64";
@@ -219,15 +153,8 @@ const Navbar = ({ onToggleCollapse }) => {
       )}
 
       <aside
-<<<<<<< HEAD
-        className={`fixed top-0 left-0 h-full ${sidebarWidthClass} shadow-xl z-40 bg-white transition-all duration-300
-        ${
-          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } lg:translate-x-0`}
-=======
         className={`fixed top-0 left-0 h-full ${sidebarWidthClass} shadow-xl z-40 bg-white transition-all duration-300 flex flex-col
         ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0`}
->>>>>>> 2bec0fb5386a17cc0d59bf1f67bb75a626640362
       >
         <div className="relative flex items-center justify-between px-4 py-3 border-b border-gray-200 bg-blue-800 flex-shrink-0">
           {!isCollapsed && (
@@ -236,13 +163,13 @@ const Navbar = ({ onToggleCollapse }) => {
                 src="/Logo IFUPS.png"
                 alt="Logo"
                 className="w-10 h-10 object-contain"
-                onError={(e) => e.target.src = 'https://placehold.co/40x40/003D8D/FECE00?text=IF'}
+                onError={(e) => { e.target.onerror = null; e.target.src = "https://placehold.co/40x40/003D8D/FECE00?text=IF"; }}
               />
               <img
                 src="/WeAreIFUPS.svg"
                 alt="Fakultas Teknik Informatika"
                 className="w-12 h-12 object-contain"
-                onError={(e) => e.target.src = 'https://placehold.co/48x48/003D8D/FECE00?text=UPS'}
+                onError={(e) => { e.target.onerror = null; e.target.src = "https://placehold.co/48x48/003D8D/FECE00?text=UPS"; }}
               />
             </div>
           )}
@@ -253,11 +180,7 @@ const Navbar = ({ onToggleCollapse }) => {
             }`}
             onClick={handleCollapse}
           >
-            {isCollapsed ? (
-              <ChevronsRight size={24} />
-            ) : (
-              <ChevronsLeft size={24} />
-            )}
+            {isCollapsed ? <ChevronsRight size={24} /> : <ChevronsLeft size={24} />}
           </button>
 
           {isSidebarOpen && (
@@ -270,18 +193,16 @@ const Navbar = ({ onToggleCollapse }) => {
           )}
         </div>
 
-        {/* Menu Navigasi (Scrollable jika konten panjang) */}
         <nav className="mt-6 flex flex-col space-y-2 px-1 overflow-y-auto flex-grow pb-10">
-          {navItems.map((item) => {
+          {NAV_ITEMS.map((item) => {
             const isActive = item.href === activeHash;
             const Icon = item.icon;
             const isOpen = openDropdown === item.name;
 
             return (
               <div key={item.name}>
-                {/* --- ITEM UTAMA --- */}
                 <a
-                  href={item.href || '#'}
+                  href={item.href || "#"}
                   className={`flex items-center justify-between ${
                     isCollapsed ? "justify-center px-2" : "px-4"
                   } py-2 rounded-md transition cursor-pointer select-none
@@ -297,8 +218,7 @@ const Navbar = ({ onToggleCollapse }) => {
                     <Icon size={24} className={isCollapsed ? "mx-auto" : "mr-3"} />
                     {!isCollapsed && <span>{item.name}</span>}
                   </div>
-                  
-                  {/* Panah Dropdown (Hanya jika tidak collapsed & item dropdown) */}
+
                   {!isCollapsed && item.isDropdown && (
                     <div className="text-gray-400">
                       {isOpen ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
@@ -306,14 +226,12 @@ const Navbar = ({ onToggleCollapse }) => {
                   )}
                 </a>
 
-                {/* --- SUB-MENU DROPDOWN --- */}
-                {/* Hanya tampil jika tidak collapsed, item dropdown, dan state open true */}
                 {!isCollapsed && item.isDropdown && isOpen && (
                   <div className="mt-1 ml-4 border-l-2 border-gray-200 pl-2 space-y-1 animate-slideDown">
-                    {item.subItems.map((sub, idx) => (
+                    {item.subItems.map((sub) => (
                       <button
-                        key={idx}
-                        onClick={() => handleDownload(sub.file, sub.name)} // Pass nama file
+                        key={sub.name}
+                        onClick={() => handleDownload(sub.file, sub.name)}
                         className="flex items-center w-full text-left px-4 py-2 text-sm text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
                       >
                         <FileText size={16} className="mr-2" />
@@ -332,7 +250,7 @@ const Navbar = ({ onToggleCollapse }) => {
         <div
           className="fixed inset-0 bg-black bg-opacity-40 z-30 lg:hidden"
           onClick={() => setIsSidebarOpen(false)}
-        ></div>
+        />
       )}
     </>
   );

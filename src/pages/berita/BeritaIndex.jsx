@@ -4,26 +4,27 @@ import { useState } from "react";
 import useFetch from "../../hooks/useFetch";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
+import { ENDPOINTS } from "../../constants/endpoints";
+import { ROUTES } from "../../constants/routes";
+import { PLACEHOLDERS } from "../../constants/placeholders";
+import { normalizeListResponse } from "../../utils/normalizeResponse";
+import { handleImageError } from "../../utils/imageUrl";
+import SEO from "../../components/SEO";
 
 const BeritaIndex = () => {
   const [searchTerm, setSearchTerm] = useState("");
+  const { data: responseData, loading, error } = useFetch(ENDPOINTS.BERITA_LIST());
 
-  const { data: responseData, loading, error } = useFetch("/berita?limit=100");
+  const beritaList = normalizeListResponse(responseData);
 
-  const beritaList = Array.isArray(responseData)
-    ? responseData
-    : responseData?.data && Array.isArray(responseData.data)
-    ? responseData.data
-    : [];
-
-  const filteredNews = beritaList.filter((item) => {
-    return item.judul.toLowerCase().includes(searchTerm.toLowerCase());
-  });
+  const filteredNews = beritaList.filter((item) =>
+    item.judul.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-primary"></div>
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-primary" />
       </div>
     );
   }
@@ -32,7 +33,7 @@ const BeritaIndex = () => {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center text-red-500 px-4 text-center">
         <p className="text-xl font-bold mb-2">Gagal memuat berita</p>
-        <Link to="/" className="text-primary hover:underline">
+        <Link to={ROUTES.HOME} className="text-primary hover:underline">
           Kembali ke Beranda
         </Link>
       </div>
@@ -41,8 +42,13 @@ const BeritaIndex = () => {
 
   return (
     <div className="py-24 bg-gray-50 min-h-screen relative">
+      <SEO 
+        title="Berita & Artikel"
+        description="Kumpulan berita, artikel, dan pengumuman terbaru dari Program Studi Informatika Universitas Pancasakti Tegal."
+        url="/berita"
+      />
       <Link
-        to="/"
+        to={ROUTES.HOME}
         aria-label="Kembali ke Halaman Utama"
         className="fixed top-6 left-6 z-30 flex items-center gap-2 text-primary bg-white border border-gray-200 px-4 py-2 rounded-full shadow-md hover:shadow-lg hover:bg-gray-100 transition-all"
       >
@@ -58,7 +64,7 @@ const BeritaIndex = () => {
           <p className="text-lg text-gray-600">
             Prodi Informatika Universitas Pancasakti Tegal
           </p>
-          <div className="w-24 h-1 bg-secondary mx-auto mt-6"></div>
+          <div className="w-24 h-1 bg-secondary mx-auto mt-6" />
         </div>
 
         <div className="max-w-2xl mx-auto mb-12 relative">
@@ -84,21 +90,14 @@ const BeritaIndex = () => {
               >
                 <div className="w-full md:w-1/3 h-56 md:h-auto relative overflow-hidden flex-shrink-0">
                   <Link
-                    to={`/berita/${item.slug}`}
+                    to={ROUTES.BERITA_DETAIL(item.slug)}
                     className="block w-full h-full"
                   >
                     <img
-                      src={
-                        item.foto_url ||
-                        "https://placehold.co/600x400/cccccc/ffffff?text=No+Image"
-                      }
+                      src={item.foto_url || PLACEHOLDERS.BERITA}
                       alt={item.judul}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                      onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src =
-                          "https://placehold.co/600x400/cccccc/ffffff?text=Foto+Tidak+Ada";
-                      }}
+                      onError={(e) => handleImageError(e, PLACEHOLDERS.BERITA_ERROR)}
                     />
                   </Link>
                   <div className="absolute top-4 left-4 bg-primary/90 text-white text-xs px-3 py-1 rounded-full font-medium backdrop-blur-sm">
@@ -111,14 +110,12 @@ const BeritaIndex = () => {
                     <CalendarDays size={16} className="text-secondary" />
                     <time>
                       {item.created_at
-                        ? format(new Date(item.created_at), "d MMMM yyyy", {
-                            locale: id,
-                          })
+                        ? format(new Date(item.created_at), "d MMMM yyyy", { locale: id })
                         : "-"}
                     </time>
                   </div>
 
-                  <Link to={`/berita/${item.slug}`}>
+                  <Link to={ROUTES.BERITA_DETAIL(item.slug)}>
                     <h3 className="text-xl md:text-2xl font-bold text-gray-800 mb-3 hover:text-primary transition-colors line-clamp-2 leading-snug break-words">
                       {item.judul}
                     </h3>
@@ -130,7 +127,7 @@ const BeritaIndex = () => {
 
                   <div className="mt-auto">
                     <Link
-                      to={`/berita/${item.slug}`}
+                      to={ROUTES.BERITA_DETAIL(item.slug)}
                       className="text-primary font-semibold hover:text-secondary transition-colors inline-flex items-center gap-1 group/link"
                     >
                       Baca Selengkapnya

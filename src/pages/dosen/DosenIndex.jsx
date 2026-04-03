@@ -1,87 +1,20 @@
-import { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
-<<<<<<< HEAD
-import { ArrowLeftCircle, Copy, Check } from "lucide-react";
-import { motion } from "framer-motion";
-import useFetch from "../../hooks/useFetch";
-
-/* =====================
-   Animation Variants
-===================== */
-=======
 import { ArrowLeftCircle } from "lucide-react";
 import { motion } from "framer-motion";
-// --- Menggunakan Data Statis ---
-import { allDosen } from "../../data/dosenData"; 
-
-// --- Varian Animasi ---
->>>>>>> 2bec0fb5386a17cc0d59bf1f67bb75a626640362
-const fadeUp = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, ease: "easeOut" },
-  },
-};
-
-const gridContainer = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.2,
-    },
-  },
-};
-
-const cardItem = {
-  hidden: { opacity: 0, y: 30, scale: 0.98 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: { duration: 0.5, ease: "easeOut" },
-  },
-};
+import useFetch from "../../hooks/useFetch";
+import { ENDPOINTS } from "../../constants/endpoints";
+import { ROUTES } from "../../constants/routes";
+import { PLACEHOLDERS } from "../../constants/placeholders";
+import { fadeUp, gridContainer, cardItem } from "../../constants/animations";
+import { normalizeListResponse } from "../../utils/normalizeResponse";
+import { handleImageError } from "../../utils/imageUrl";
+import SEO from "../../components/SEO";
 
 const DosenIndex = () => {
-<<<<<<< HEAD
-  /* =====================
-     Fetch Data
-  ===================== */
-  const { data: responseData, loading, error } = useFetch("/dosen?limit=100");
+  const { data: responseData, loading, error } = useFetch(ENDPOINTS.DOSEN_LIST());
 
-  /* =====================
-     Copy Feedback State
-  ===================== */
-  const [copiedId, setCopiedId] = useState(null);
+  const dosenList = normalizeListResponse(responseData);
 
-  const handleCopy = (e, text, id) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    navigator.clipboard.writeText(text).then(() => {
-      setCopiedId(id);
-      setTimeout(() => setCopiedId(null), 2000);
-    });
-  };
-
-  /* =====================
-     Normalize API Response
-  ===================== */
-  const dosenList = useMemo(() => {
-    if (Array.isArray(responseData)) return responseData;
-    if (responseData?.data && Array.isArray(responseData.data)) {
-      return responseData.data;
-    }
-    return [];
-  }, [responseData]);
-
-  /* =====================
-     Loading State
-  ===================== */
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -90,21 +23,13 @@ const DosenIndex = () => {
     );
   }
 
-  /* =====================
-     Error / Empty State
-  ===================== */
   if (error || dosenList.length === 0) {
-=======
-  // --- Cek Data Kosong (Safety Check) ---
-  if (!allDosen || allDosen.length === 0) {
->>>>>>> 2bec0fb5386a17cc0d59bf1f67bb75a626640362
     return (
       <div className="py-24 bg-white min-h-screen relative flex flex-col items-center justify-center text-center px-4">
         <Link
-          to="/"
-          className="absolute top-12 left-10 md:left-12 z-20 flex items-center gap-2
-                     text-primary bg-white shadow-md px-4 py-2 rounded-full
-                     hover:bg-gray-100 hover:shadow-lg hover:text-secondary transition-all"
+          to={ROUTES.HOME}
+          aria-label="Kembali ke Halaman Utama"
+          className="absolute top-12 left-10 md:left-12 z-20 flex items-center gap-2 text-primary bg-white shadow-md px-4 py-2 rounded-full hover:bg-gray-100 hover:shadow-lg hover:text-secondary transition-all"
         >
           <ArrowLeftCircle size={24} className="text-secondary" />
           <span className="hidden sm:inline font-medium">Kembali</span>
@@ -113,12 +38,8 @@ const DosenIndex = () => {
         <p className="text-xl text-gray-600">
           Data dosen tidak tersedia saat ini.
         </p>
-<<<<<<< HEAD
-
-=======
->>>>>>> 2bec0fb5386a17cc0d59bf1f67bb75a626640362
         <Link
-          to="/"
+          to={ROUTES.HOME}
           className="mt-6 px-6 py-2 bg-primary text-white rounded-full hover:bg-blue-800 transition-colors"
         >
           Kembali ke Halaman Utama
@@ -127,39 +48,22 @@ const DosenIndex = () => {
     );
   }
 
-<<<<<<< HEAD
-  /* =====================
-     Main Render
-  ===================== */
   return (
     <div className="py-24 bg-gray-50 min-h-screen relative overflow-hidden">
-      {/* Back Button */}
+      <SEO 
+        title="Staf Pengajar"
+        description="Kenali profil, bidang keahlian, dan jabatan fungsional dari staf pengajar di Program Studi Informatika Universitas Pancasakti Tegal."
+        url="/dosen"
+      />
       <Link
-        to="/"
-        className="absolute top-12 left-10 md:left-12 z-20 flex items-center gap-2
-                   text-primary bg-white shadow-md px-4 py-2 rounded-full
-                   hover:bg-gray-100 hover:shadow-lg hover:text-secondary transition-all"
-=======
-  // --- Tampilan Utama ---
-  return (
-    <div className="py-24 bg-gray-50 min-h-screen relative overflow-hidden">
-      {/* Tombol kembali */}
-      <Link
-        to="/"
+        to={ROUTES.HOME}
         className="fixed top-8 left-8 z-30 flex items-center gap-2 px-4 py-2 bg-white shadow-md rounded-full hover:shadow-lg transition text-primary"
->>>>>>> 2bec0fb5386a17cc0d59bf1f67bb75a626640362
       >
         <ArrowLeftCircle size={24} className="text-secondary" />
         <span className="hidden sm:inline font-medium">Kembali</span>
       </Link>
 
       <div className="container mx-auto px-4">
-<<<<<<< HEAD
-        {/* Page Title */}
-=======
-        
-        {/* Judul Halaman */}
->>>>>>> 2bec0fb5386a17cc0d59bf1f67bb75a626640362
         <motion.div
           className="text-center mb-16"
           variants={fadeUp}
@@ -176,11 +80,6 @@ const DosenIndex = () => {
           <div className="w-24 h-1 bg-secondary mx-auto mt-6" />
         </motion.div>
 
-<<<<<<< HEAD
-        {/* Lecturer Grid */}
-=======
-        {/* Grid Kartu Dosen */}
->>>>>>> 2bec0fb5386a17cc0d59bf1f67bb75a626640362
         <motion.div
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto"
           variants={gridContainer}
@@ -188,104 +87,39 @@ const DosenIndex = () => {
           whileInView="visible"
           viewport={{ once: true, amount: 0.1 }}
         >
-<<<<<<< HEAD
-          {dosenList.map((dosen) => (
-            <motion.div
-              key={dosen.id}
-              variants={cardItem}
-              className="group bg-white shadow-md hover:shadow-xl transition-all
-                         overflow-hidden hover:-translate-y-1 border-b-4 border-secondary
-                         relative rounded-2xl max-w-xs mx-auto w-full"
-            >
-              <div className="relative overflow-hidden h-full">
-                <img
-                  src={
-                    dosen.foto_url ||
-                    "https://placehold.co/400x500/cccccc/ffffff?text=Foto+Dosen"
-                  }
-                  alt={dosen.nama}
-                  className="w-full h-96 object-cover transition-transform duration-500 group-hover:scale-105"
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src =
-                      "https://placehold.co/400x500/cccccc/ffffff?text=Foto+Dosen";
-                  }}
-                />
+          {dosenList.map((dosen) => {
+            const jabatan = dosen.jabatan_fungsional || dosen.jabatanFungsional || dosen.jabatan;
+            return (
+              <motion.div
+                key={dosen.id}
+                variants={cardItem}
+                className="group bg-white shadow-md hover:shadow-xl transition-all overflow-hidden hover:-translate-y-1 border-b-4 border-secondary relative rounded-2xl max-w-xs mx-auto sm:max-w-none w-full"
+              >
+                <Link to={ROUTES.DOSEN_DETAIL(dosen.id)} className="block h-full w-full">
+                  <div className="relative overflow-hidden h-full">
+                    <img
+                      src={dosen.foto_url || dosen.foto || PLACEHOLDERS.DOSEN}
+                      alt={dosen.nama}
+                      className="w-full h-96 object-cover transition-transform duration-500 group-hover:scale-105"
+                      onError={(e) => handleImageError(e, PLACEHOLDERS.DOSEN)}
+                    />
 
-                {/* Overlay */}
-                <div
-                  className="absolute bottom-0 left-0 w-full
-                                bg-gradient-to-t from-primary via-primary/90 to-transparent
-                                pt-28 pb-5 px-5 flex flex-col justify-end"
-                >
-                  <h3 className="text-base font-bold text-white mb-1 drop-shadow-md">
-                    {dosen.nama}
-                  </h3>
+                    <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-primary via-primary/90 to-transparent pt-28 pb-5 px-5 flex flex-col justify-end">
+                      <h3 className="text-base font-bold text-white leading-snug mb-1 drop-shadow-md">
+                        {dosen.nama}
+                      </h3>
 
-                  {/* NIP + Copy */}
-                  {dosen.nip && (
-                    <div className="flex items-center gap-2 mt-1">
-                      <p className="text-[10px] text-secondary font-semibold uppercase opacity-80">
-                        NIP. {dosen.nip}
-                      </p>
-                      <button
-                        onClick={(e) => handleCopy(e, dosen.nip, dosen.id)}
-                        className="p-1 rounded-full hover:bg-white/10
-                                   text-secondary transition-colors z-10"
-                        aria-label="Salin NIP"
-                      >
-                        {copiedId === dosen.id ? (
-                          <Check size={14} strokeWidth={3} />
-                        ) : (
-                          <Copy size={14} strokeWidth={2} />
-                        )}
-                      </button>
+                      {jabatan && (
+                        <p className="text-[10px] text-secondary font-semibold tracking-wide uppercase opacity-80">
+                          {jabatan}
+                        </p>
+                      )}
                     </div>
-                  )}
-=======
-          {/* Menggunakan allDosen langsung */}
-          {allDosen.map((dosen) => (
-            <motion.div
-              key={dosen.id}
-              variants={cardItem}
-              // Desain Kartu (Rounded, Shadow, Ramping di Mobile, Border Bawah Kuning)
-              className="group bg-white shadow-md hover:shadow-xl transition-all overflow-hidden hover:-translate-y-1 border-b-4 border-secondary relative rounded-2xl max-w-xs mx-auto sm:max-w-none w-full"
-            >
-              {/* Link ke Detail */}
-              <Link to={`/dosen/${dosen.id}`} className="block h-full w-full">
-                <div className="relative overflow-hidden h-full">
-                  
-                  {/* Gambar Tinggi (h-96) */}
-                  <img
-                    src={dosen.foto}
-                    alt={dosen.nama}
-                    className="w-full h-96 object-cover transition-transform duration-500 group-hover:scale-105"
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src =
-                        "https://placehold.co/400x500/cccccc/ffffff?text=Foto+Dosen";
-                    }}
-                  />
-
-                  {/* Overlay Teks (Fleksibel untuk teks panjang, Gradasi Biru) */}
-                  <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-primary via-primary/90 to-transparent pt-28 pb-5 px-5 flex flex-col justify-end">
-                    <h3 className="text-base font-bold text-white leading-snug mb-1 drop-shadow-md">
-                      {dosen.nama}
-                    </h3>
-                    
-                    
-                    {/* Menampilkan NIP jika ada */}
-                    {dosen.nip && (
-                      <p className="text-[10px] text-secondary font-semibold tracking-wide uppercase opacity-80">
-                        NIP. {dosen.jabatan}
-                      </p>
-                    )}
                   </div>
->>>>>>> 2bec0fb5386a17cc0d59bf1f67bb75a626640362
-                </div>
-              </Link>
-            </motion.div>
-          ))}
+                </Link>
+              </motion.div>
+            );
+          })}
         </motion.div>
       </div>
     </div>

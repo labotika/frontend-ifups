@@ -2,63 +2,23 @@ import { Link } from "react-router-dom";
 import { ArrowLeftCircle } from "lucide-react";
 import { motion } from "framer-motion";
 import useFetch from "../../hooks/useFetch";
-
-<<<<<<< HEAD
-=======
-// --- Varian Animasi ---
->>>>>>> 2bec0fb5386a17cc0d59bf1f67bb75a626640362
-const fadeUp = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, ease: "easeOut" },
-  },
-};
-
-const gridContainer = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.2,
-<<<<<<< HEAD
-    },
-  },
-=======
-    }
-  }
->>>>>>> 2bec0fb5386a17cc0d59bf1f67bb75a626640362
-};
-
-const cardItem = {
-  hidden: { opacity: 0, y: 30, scale: 0.98 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: { duration: 0.5, ease: "easeOut" },
-  },
-};
+import { ENDPOINTS } from "../../constants/endpoints";
+import { ROUTES } from "../../constants/routes";
+import { PLACEHOLDERS } from "../../constants/placeholders";
+import { fadeUp, gridContainer, cardItem } from "../../constants/animations";
+import { normalizeListResponse } from "../../utils/normalizeResponse";
+import { handleImageError } from "../../utils/imageUrl";
+import SEO from "../../components/SEO";
 
 const AlumniIndex = () => {
-  const {
-    data: responseData,
-    loading,
-    error,
-  } = useFetch("/prestasi?limit=100");
+  const { data: responseData, loading, error } = useFetch(ENDPOINTS.PRESTASI_LIST());
 
-  const alumniList = Array.isArray(responseData)
-    ? responseData
-    : responseData?.data && Array.isArray(responseData.data)
-    ? responseData.data
-    : [];
+  const alumniList = normalizeListResponse(responseData);
 
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-primary"></div>
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-primary" />
       </div>
     );
   }
@@ -67,7 +27,7 @@ const AlumniIndex = () => {
     return (
       <div className="py-24 bg-white min-h-screen relative flex flex-col items-center justify-center text-center px-4">
         <Link
-          to="/"
+          to={ROUTES.HOME}
           aria-label="Kembali ke Halaman Utama"
           className="absolute top-12 left-10 md:left-12 z-20 flex items-center gap-2 text-primary bg-white shadow-md px-4 py-2 rounded-full hover:bg-gray-100 hover:shadow-lg hover:text-secondary transition-all"
         >
@@ -75,16 +35,11 @@ const AlumniIndex = () => {
           <span className="hidden sm:inline font-medium">Kembali</span>
         </Link>
         <h1 className="text-4xl font-bold text-primary mb-4">Oops!</h1>
-<<<<<<< HEAD
         <p className="text-xl text-gray-600">
-          Data mahasiswa berprestasi tidak dapat dimuat atau belum tersedia.
+          Data alumni tidak dapat dimuat atau belum tersedia.
         </p>
-
-=======
-        <p className="text-xl text-gray-600">Data alumni tidak dapat dimuat.</p>
->>>>>>> 2bec0fb5386a17cc0d59bf1f67bb75a626640362
         <Link
-          to="/"
+          to={ROUTES.HOME}
           className="mt-6 px-6 py-2 bg-primary text-white rounded-full hover:bg-blue-800 transition-colors"
         >
           Kembali ke Halaman Utama
@@ -95,12 +50,13 @@ const AlumniIndex = () => {
 
   return (
     <div className="py-24 bg-white min-h-screen relative overflow-hidden">
-<<<<<<< HEAD
-=======
-      {/* Tombol kembali */}
->>>>>>> 2bec0fb5386a17cc0d59bf1f67bb75a626640362
+      <SEO 
+        title="Alumni & Prestasi"
+        description="Daftar profil alumni dan berbagai prestasi membanggakan dari mahasiswa Program Studi Informatika Universitas Pancasakti Tegal."
+        url="/prestasi"
+      />
       <Link
-        to="/"
+        to={ROUTES.HOME}
         aria-label="Kembali ke Halaman Utama"
         className="absolute top-12 left-10 md:left-12 z-20 flex items-center gap-2 text-primary bg-white shadow-md px-4 py-2 rounded-full hover:bg-gray-100 hover:shadow-lg "
       >
@@ -117,12 +73,12 @@ const AlumniIndex = () => {
           viewport={{ once: true, amount: 0.5 }}
         >
           <h1 className="text-4xl md:text-5xl font-bold text-primary mb-4">
-            Mahasiswa Berprestasi
+            Alumni Kami
           </h1>
           <p className="text-xl text-gray-600">
-            Kebanggaan Prodi Informatika Universitas Pancasakti Tegal
+            Jejak Lulusan Prodi Informatika Universitas Pancasakti Tegal
           </p>
-          <div className="w-24 h-1 bg-secondary mx-auto mt-6"></div>
+          <div className="w-24 h-1 bg-secondary mx-auto mt-6" />
         </motion.div>
 
         <motion.div
@@ -136,63 +92,29 @@ const AlumniIndex = () => {
             <motion.div
               key={alumnus.id}
               variants={cardItem}
-<<<<<<< HEAD
-              className="group bg-white shadow-md hover:shadow-xl transition-all overflow-hidden hover:-translate-y-1 border-b-4 border-secondary relative rounded-2xl"
             >
-              <div className="relative overflow-hidden h-full">
-                <img
-                  src={
-                    alumnus.foto_url ||
-                    "https://placehold.co/400x500/cccccc/ffffff?text=No+Image"
-                  }
-                  alt={alumnus.nama}
-                  className="w-full h-96 object-cover transition-transform duration-500 group-hover:scale-105"
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src =
-                      "https://placehold.co/400x500/cccccc/ffffff?text=Foto+Mahasiswa";
-                  }}
-                />
-
-                <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-secondary via-secondary/90 to-transparent pt-28 pb-5 px-5 flex flex-col justify-end">
-                  <h3 className="text-base font-bold text-primary leading-snug mb-1 drop-shadow-sm line-clamp-1">
-                    {alumnus.nama}
-                  </h3>
-                  <p className="text-xs text-blue-900 font-medium leading-relaxed opacity-90 line-clamp-2">
-                    {alumnus.kejuaraan || alumnus.message}
-                  </p>
-=======
-            >
-              {/* --- VVV LINK DITAMBAHKAN DI SINI UNTUK MENGHUBUNGKAN KE DETAIL VVV --- */}
               <Link
-                to={`/alumni/${alumnus.id}`} // Mengarahkan ke halaman detail berdasarkan ID
+                to={`${ROUTES.PRESTASI}/${alumnus.id}`}
                 className="group bg-white shadow-md hover:shadow-xl transition-all overflow-hidden hover:-translate-y-1 border-b-4 border-secondary relative rounded-2xl block h-full max-w-xs mx-auto sm:max-w-none w-full"
               >
                 <div className="relative overflow-hidden h-full">
-                  {/* Gambar Tinggi (h-96) */}
                   <img
-                    src={alumnus.foto}
+                    src={alumnus.foto_url || PLACEHOLDERS.MAHASISWA}
                     alt={alumnus.nama}
                     className="w-full h-96 object-cover transition-transform duration-500 group-hover:scale-105"
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = `https://placehold.co/400x500/cccccc/ffffff?text=Foto+${alumnus.nama.split(" ")[0]}`;
-                    }}
+                    onError={(e) => handleImageError(e, PLACEHOLDERS.MAHASISWA)}
                   />
 
-                  {/* Overlay Gradasi Kuning */}
                   <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-secondary via-secondary/90 to-transparent pt-28 pb-5 px-5 flex flex-col justify-end">
                     <h3 className="text-base font-bold text-primary leading-snug mb-1 drop-shadow-sm">
                       {alumnus.nama}
                     </h3>
                     <p className="text-xs text-blue-900 font-medium leading-relaxed opacity-90">
-                      {alumnus.pekerjaan}
+                      {alumnus.pekerjaan || alumnus.kejuaraan || alumnus.message}
                     </p>
                   </div>
->>>>>>> 2bec0fb5386a17cc0d59bf1f67bb75a626640362
                 </div>
               </Link>
-              {/* --- ^^^ AKHIR LINK ^^^ --- */}
             </motion.div>
           ))}
         </motion.div>

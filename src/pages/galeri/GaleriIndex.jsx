@@ -8,10 +8,14 @@ import {
   Download,
 } from "lucide-react";
 import { useState } from "react";
-import { allGallery, galleryCategories } from "../../data/galeriData";
 import { motion, AnimatePresence } from "framer-motion";
-
-/* ================= SMART CARD ================= */
+import { ROUTES } from "../../constants/routes";
+import { ENDPOINTS } from "../../constants/endpoints";
+import { PLACEHOLDERS } from "../../constants/placeholders";
+import { handleImageError } from "../../utils/imageUrl";
+import useFetch from "../../hooks/useFetch";
+import { format } from "date-fns";
+import { id as localeId } from "date-fns/locale";
 
 const GalleryCard = ({ item }) => {
   const [open, setOpen] = useState(false);
@@ -26,40 +30,50 @@ const GalleryCard = ({ item }) => {
 
   const handleShare = (e) => {
     e.stopPropagation();
-    const url = `${window.location.origin}/galeri`;
+    const url = `${window.location.origin}${ROUTES.GALERI}`;
     if (navigator.share) {
-      navigator.share({
-        title: item.title,
-        text: "Lihat foto ini",
-        url,
-      });
+      navigator.share({ title: item.title, text: "Lihat foto ini", url });
     } else {
       navigator.clipboard.writeText(url);
-      alert("Link disalin ke clipboard");
+    }
+  };
+
+  const handleDownload = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    try {
+      const response = await fetch(item.foto_url);
+      const blob = await response.blob();
+      const objectUrl = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = objectUrl;
+      const filename = item.foto_url.split("/").pop() || `foto-galeri-${item.id}.jpg`;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(objectUrl);
+    } catch (error) {
+      console.error("Download failed:", error);
+      window.open(item.foto_url, "_blank");
     }
   };
 
   return (
     <div className="group relative break-inside-avoid rounded-2xl overflow-hidden bg-gray-100 shadow-md hover:shadow-xl transition-shadow duration-300">
-      {/* IMAGE */}
       <img
-        src={item.image}
-        alt={item.title}
+        src={item.foto_url}
+        alt={item.judul}
         className="w-full h-96 object-cover"
         loading="lazy"
-        onError={(e) => {
-          e.target.onerror = null;
-          e.target.src = `https://placehold.co/600x400/cccccc/ffffff?text=Foto+${item.id}`;
-        }}
+        onError={(e) => handleImageError(e, PLACEHOLDERS.GALERI(item.id))}
       />
 
-      {/* SMART INFO OVERLAY */}
       <div
         className={`absolute inset-x-2 bottom-2 rounded-xl backdrop-blur-md overflow-hidden transition-colors duration-500 ${
           open ? "bg-white/95 shadow-lg" : "bg-white/60 hover:bg-white/80"
         }`}
       >
-        {/* HEADER */}
         <button
           onClick={() => setOpen(!open)}
           className="w-full flex items-center justify-between p-3 text-left"
@@ -72,7 +86,7 @@ const GalleryCard = ({ item }) => {
                   : "text-sm truncate"
               }`}
             >
-              {item.title}
+              {item.judul}
             </h3>
             {!open && (
               <p className="text-[10px] text-gray-600 mt-0.5 truncate">
@@ -80,7 +94,6 @@ const GalleryCard = ({ item }) => {
               </p>
             )}
           </div>
-
           <span
             className={`p-1.5 rounded-full bg-white/70 transition-transform duration-500 ${
               open ? "rotate-180 bg-gray-100" : ""
@@ -90,7 +103,6 @@ const GalleryCard = ({ item }) => {
           </span>
         </button>
 
-        {/* EXPANDED CONTENT */}
         <AnimatePresence>
           {open && (
             <motion.div
@@ -102,16 +114,17 @@ const GalleryCard = ({ item }) => {
               <div className="px-3 pb-3 pt-0 text-xs text-gray-700 space-y-4">
                 <div className="h-px w-full bg-gray-200" />
 
-                {/* DATE */}
                 <div className="flex items-center gap-1 text-gray-500">
                   <ImageIcon size={12} />
-                  <span>{item.date}</span>
+                  <span>
+                    {item.created_at
+                      ? format(new Date(item.created_at), "d MMMM yyyy", { locale: localeId })
+                      : "-"}
+                  </span>
                 </div>
 
-                {/* ACTIONS */}
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-4">
-                    {/* LIKE */}
                     <button
                       onClick={toggleLike}
                       className="flex items-center gap-1 text-gray-600 hover:text-red-500 transition"
@@ -123,7 +136,6 @@ const GalleryCard = ({ item }) => {
                       <span className="text-xs font-medium">{likes}</span>
                     </button>
 
-                    {/* SHARE */}
                     <button
                       onClick={handleShare}
                       className="text-gray-600 hover:text-primary transition"
@@ -133,17 +145,14 @@ const GalleryCard = ({ item }) => {
                     </button>
                   </div>
 
-                  {/* DOWNLOAD */}
-                  <a
-                    href={item.image}
-                    download
-                    onClick={(e) => e.stopPropagation()}
+                  <button
+                    onClick={handleDownload}
                     className="flex items-center gap-1 text-gray-600 hover:text-primary transition"
                     title="Unduh foto"
                   >
                     <Download size={16} />
                     <span className="text-xs font-medium">Unduh</span>
-                  </a>
+                  </button>
                 </div>
               </div>
             </motion.div>
@@ -154,21 +163,14 @@ const GalleryCard = ({ item }) => {
   );
 };
 
-/* ================= GALERI INDEX ================= */
-
 const GaleriIndex = () => {
-  const [activeCategory, setActiveCategory] = useState("Semua");
-
-  const filteredGallery =
-    activeCategory === "Semua"
-      ? allGallery
-      : allGallery.filter((item) => item.category === activeCategory);
+  const { data, loading, error } = useFetch(ENDPOINTS.GALERI_LIST(50));
+  const galleryData = data?.data || [];
 
   return (
     <div className="py-24 bg-white min-h-screen relative overflow-hidden">
-      {/* BACK BUTTON */}
       <Link
-        to="/"
+        to={ROUTES.HOME}
         className="fixed top-8 left-8 z-30 flex items-center gap-2 px-4 py-2 bg-white shadow-md rounded-full hover:shadow-lg transition text-primary"
       >
         <ArrowLeftCircle size={24} className="text-secondary" />
@@ -176,7 +178,6 @@ const GaleriIndex = () => {
       </Link>
 
       <div className="container mx-auto px-4">
-        {/* HEADER */}
         <motion.div
           className="text-center mb-12"
           initial={{ opacity: 0, y: -20 }}
@@ -192,18 +193,29 @@ const GaleriIndex = () => {
           <div className="w-24 h-1 bg-secondary mx-auto mt-6" />
         </motion.div>
 
-        
+        {loading && (
+          <div className="flex justify-center my-12">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-primary" />
+          </div>
+        )}
 
-        {/* MASONRY GRID */}
-        <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 max-w-7xl mx-auto space-y-6">
-          {filteredGallery.map((item) => (
-            <GalleryCard key={item.id} item={item} />
-          ))}
-        </div>
+        {error && !loading && (
+          <div className="text-center p-8 bg-white shadow rounded-2xl border border-red-100">
+            <p className="text-red-500 font-medium">Gagal memuat galeri. Silakan coba lagi nanti.</p>
+          </div>
+        )}
 
-        {filteredGallery.length === 0 && (
+        {!loading && !error && (
+          <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 max-w-7xl mx-auto space-y-6">
+            {galleryData.map((item) => (
+              <GalleryCard key={item.id} item={item} />
+            ))}
+          </div>
+        )}
+
+        {!loading && !error && galleryData.length === 0 && (
           <p className="text-center text-gray-500 mt-10">
-            Tidak ada foto untuk kategori ini.
+            Tidak ada foto untuk ditampilkan.
           </p>
         )}
       </div>

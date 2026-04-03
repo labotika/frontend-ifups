@@ -1,4 +1,3 @@
-// --- VVV Impor motion dan React VVV ---
 import React from "react";
 import { motion } from "framer-motion";
 
@@ -120,7 +119,6 @@ const Kontak = () => {
       id="kontak"
       className="py-24 bg-gradient-to-b from-white to-blue-50 relative overflow-hidden"
     >
-      {/* Header (Dibungkus motion.div) */}
       <motion.div
         className="text-center mb-16"
         variants={fadeUp}
@@ -138,9 +136,7 @@ const Kontak = () => {
         <div className="w-20 h-1 bg-secondary mx-auto mt-5 rounded-full"></div>
       </motion.div>
 
-      {/* Contact Grid (tanpa card) */}
       <div className="container mx-auto px-6 md:px-12">
-        {/* Grid Dibungkus motion.div */}
         <motion.div 
           className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center"
           variants={gridContainer}
@@ -182,7 +178,6 @@ const Kontak = () => {
           ))}
         </motion.div>
 
-        {/* Background Accent */}
         <div className="absolute inset-0 -z-10 opacity-5 bg-[url('/grid-pattern.svg')] bg-center bg-repeat"></div>
       </div>
     </section>

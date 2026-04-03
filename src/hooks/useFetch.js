@@ -1,30 +1,42 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import apiClient from "../api/index";
 
-const useFetch = (endpoint, options = {}) => {
-  const [data, setData] = useState([]);
+const useFetch = (endpoint) => {
+  const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const prevEndpoint = useRef(endpoint);
 
   useEffect(() => {
+    prevEndpoint.current = endpoint;
+
     const fetchData = async () => {
       try {
         setLoading(true);
-        const response = await apiClient.get(endpoint, options);
-        if (response.data.data) {
-          setData(response.data);
-        } else {
+        setError(null);
+        const response = await apiClient.get(endpoint);
+        if (prevEndpoint.current === endpoint) {
           setData(response.data);
         }
       } catch (err) {
-        console.error(`Error Fetching ${endpoint}`, err);
-        setError(err.message || "Terjadi kesalahan saat mengambil data");
+        if (prevEndpoint.current === endpoint) {
+          const message =
+            err instanceof Error
+              ? err.message
+              : "Terjadi kesalahan saat mengambil data";
+          console.error(`Error fetching ${endpoint}:`, err);
+          setError(message);
+        }
       } finally {
-        setLoading(false);
+        if (prevEndpoint.current === endpoint) {
+          setLoading(false);
+        }
       }
     };
+
     fetchData();
-  }, [endpoint, JSON.stringify(options)]);
+  }, [endpoint]);
+
   return { data, loading, error };
 };
 

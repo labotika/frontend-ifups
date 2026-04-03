@@ -6,11 +6,14 @@ import Dosen from '../sections/Dosen';
 import Alumni from '../sections/Alumni';
 import Berita from '../sections/Berita';
 import Kontak from '../sections/Kontak';
-import Galeri from "../sections/Galeri"; // <-- Impor ini
+import Galeri from "../sections/Galeri";
+import Unduhan from "../sections/Unduhan";
+import SEO from "../components/SEO";
 
 const Home = () => {
   return (
     <main>
+      <SEO />
       <Hero />
       <VisiMisi />
       <About />
@@ -18,7 +21,8 @@ const Home = () => {
       <Dosen />
       <Alumni />
       <Berita />
-      <Galeri /> 
+      <Galeri />
+      <Unduhan />
       <Kontak />
     </main>
   );

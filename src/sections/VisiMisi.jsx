@@ -1,4 +1,4 @@
-import { Target, Rocket, ClipboardCheck } from 'lucide-react'; // 
+import { Target, Rocket, ClipboardCheck } from 'lucide-react';
 import React, { useState, useEffect, useRef } from 'react';
 
 
@@ -68,11 +68,9 @@ const VisiMisi = () => {
               visiVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
             }`}
           >
-            {/* Ikon Visi */}
             <div className="flex justify-center mb-6">
               <Target size={80} className="text-primary opacity-20" strokeWidth={1.5} />
             </div>
-            {/* Teks Visi */}
             <div className="text-center">
               <h3 className="text-3xl font-semibold text-primary mb-4">Visi</h3>
               <p className="text-lg md:text-xl text-gray-700 leading-relaxed border-l-4 border-secondary pl-4">
@@ -98,7 +96,6 @@ const VisiMisi = () => {
               
               <div className="text-center w-full">
                 <h3 className="text-3xl font-semibold text-primary mb-4">Misi</h3>
-                {/* List Misi (Rata Kiri) */}
                 <ul className="text-gray-700 leading-relaxed space-y-4 text-left">
                   <li className="flex items-start">
                     <span className="font-bold text-primary mr-3">a)</span>

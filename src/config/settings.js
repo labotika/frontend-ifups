@@ -1,6 +1,6 @@
 export const appSettings = {
-  maintenanceMode: process.env.NODE_ENV === 'development' ? false : false,
-  maintenanceMessage: "Sedang dalam pemeliharaan - Estimasi selesai: 3 hari",
-  contactEmail: "info@ifups.tegal.ac.id",
-  contactPhone: "(0283) 1234567"
+  maintenanceMode: import.meta.env.MODE === "development" ? false : false,
+  maintenanceMessage: import.meta.env.VITE_MAINTENANCE_MESSAGE || "Sedang dalam pemeliharaan",
+  contactEmail: import.meta.env.VITE_CONTACT_EMAIL || "info@ifups.tegal.ac.id",
+  contactPhone: import.meta.env.VITE_CONTACT_PHONE || "(0283) 1234567",
 };

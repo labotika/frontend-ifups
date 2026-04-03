@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 
 
 const About = () => {
-  // --- VVV State & Ref untuk animasi fade-in VVV ---
   const [textVisible, setTextVisible] = useState(false);
   const [imageVisible, setImageVisible] = useState(false);
   const textRef = useRef(null);

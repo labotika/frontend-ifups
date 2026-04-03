@@ -4,46 +4,17 @@ import { CalendarDays } from "lucide-react";
 import useFetch from "../hooks/useFetch";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, ease: "easeOut" },
-  },
-};
-
-const gridContainer = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.2,
-    },
-  },
-};
-
-const cardItem = {
-  hidden: { opacity: 0, y: 30, scale: 0.98 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: { duration: 0.5, ease: "easeOut" },
-  },
-};
+import { ENDPOINTS } from "../constants/endpoints";
+import { ROUTES } from "../constants/routes";
+import { PLACEHOLDERS } from "../constants/placeholders";
+import { fadeUp, gridContainer, cardItem } from "../constants/animations";
+import { normalizeListResponse } from "../utils/normalizeResponse";
+import { handleImageError } from "../utils/imageUrl";
 
 const Berita = () => {
-  const { data: responseData, loading, error } = useFetch("/berita?limit=3");
+  const { data: responseData, loading, error } = useFetch(ENDPOINTS.BERITA_LIST(3));
 
-  const beritaList = Array.isArray(responseData)
-    ? responseData
-    : responseData?.data && Array.isArray(responseData.data)
-    ? responseData.data
-    : [];
-
+  const beritaList = normalizeListResponse(responseData);
   const featuredNews = beritaList.slice(0, 3);
 
   if (loading) {
@@ -74,7 +45,7 @@ const Berita = () => {
             Berita Terbaru
           </h2>
           <p className="text-xl text-gray-600">Prodi Informatika</p>
-          <div className="w-20 h-1 bg-secondary mx-auto mt-4"></div>
+          <div className="w-20 h-1 bg-secondary mx-auto mt-4" />
         </motion.div>
 
         <motion.div
@@ -91,21 +62,14 @@ const Berita = () => {
               className="flex flex-col h-full"
             >
               <Link
-                to={`/berita/${item.slug}`}
+                to={ROUTES.BERITA_DETAIL(item.slug)}
                 className="block mb-4 overflow-hidden rounded-ifups shadow-md group"
               >
                 <img
-                  src={
-                    item.foto_url ||
-                    "https://placehold.co/600x338/cccccc/ffffff?text=No+Image"
-                  }
+                  src={item.foto_url || PLACEHOLDERS.BERITA}
                   alt={item.judul}
                   className="w-full aspect-video object-cover transition-transform duration-500 group-hover:scale-110"
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src =
-                      "https://placehold.co/600x338/cccccc/ffffff?text=Gambar+Error";
-                  }}
+                  onError={(e) => handleImageError(e, PLACEHOLDERS.BERITA_ERROR)}
                 />
               </Link>
 
@@ -113,15 +77,13 @@ const Berita = () => {
                 <time className="text-xs text-gray-500 font-semibold uppercase tracking-wider mb-2 flex items-center gap-2">
                   <CalendarDays size={14} />
                   {item.created_at
-                    ? format(new Date(item.created_at), "d MMMM yyyy", {
-                        locale: id,
-                      })
+                    ? format(new Date(item.created_at), "d MMMM yyyy", { locale: id })
                     : "-"}
                 </time>
 
                 <h3 className="text-lg font-bold text-primary mb-4 h-20 line-clamp-3">
                   <Link
-                    to={`/berita/${item.slug}`}
+                    to={ROUTES.BERITA_DETAIL(item.slug)}
                     className="hover:text-secondary transition-colors"
                   >
                     {item.judul}
@@ -130,7 +92,7 @@ const Berita = () => {
 
                 <div className="mt-auto">
                   <Link
-                    to={`/berita/${item.slug}`}
+                    to={ROUTES.BERITA_DETAIL(item.slug)}
                     className="inline-block bg-secondary text-primary font-semibold px-6 py-2 rounded-lg hover:bg-yellow-400 transition-colors"
                   >
                     Selengkapnya
@@ -149,7 +111,7 @@ const Berita = () => {
           viewport={{ once: true, amount: 0.5 }}
         >
           <Link
-            to="/berita"
+            to={ROUTES.BERITA}
             className="inline-block bg-secondary text-primary font-semibold px-8 py-3 rounded-ifups shadow-md hover:bg-yellow-400 hover:shadow-lg transition-all duration-300"
           >
             Lihat Semua Berita

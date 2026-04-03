@@ -1,77 +1,30 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-<<<<<<< HEAD
-import useFetch from "../hooks/useFetch"; // 1. Menggunakan Custom Hook
-
-=======
-import { allDosen } from "../data/dosenData"; // 1. Impor data statis
-
-// 2. Ambil 4 dosen pertama dari data statis
-const featuredLecturers = allDosen.slice(0, 4);
-
->>>>>>> 2bec0fb5386a17cc0d59bf1f67bb75a626640362
-// --- Varian Animasi ---
-const fadeUp = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, ease: "easeOut" },
-  },
-};
-
-const gridContainer = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.2,
-    },
-  },
-};
-
-const cardItem = {
-  hidden: { opacity: 0, y: 30, scale: 0.98 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: { duration: 0.5, ease: "easeOut" },
-  },
-};
+import useFetch from "../hooks/useFetch";
+import { ENDPOINTS } from "../constants/endpoints";
+import { ROUTES } from "../constants/routes";
+import { PLACEHOLDERS } from "../constants/placeholders";
+import { fadeUp, gridContainer, cardItem } from "../constants/animations";
+import { normalizeListResponse } from "../utils/normalizeResponse";
+import { handleImageError } from "../utils/imageUrl";
 
 const Dosen = () => {
-  // 2. Fetching Data (Best Practice)
-  // Kita mengambil data dari endpoint /dosen
-  const { data: responseData, loading, error } = useFetch("/dosen");
+  const { data: responseData, loading, error } = useFetch(ENDPOINTS.DOSEN);
 
-  // 3. Normalisasi Data
-  // Memastikan data selalu berupa array untuk mencegah error .map
-  const dosenList = Array.isArray(responseData)
-    ? responseData
-    : responseData?.data && Array.isArray(responseData.data)
-    ? responseData.data
-    : [];
-
-  // 4. Slice Data (Hanya ambil 4 untuk Halaman Utama)
+  const dosenList = normalizeListResponse(responseData);
   const featuredLecturers = dosenList.slice(0, 4);
 
-  // --- Tampilan Loading (Skeleton Sederhana) ---
   if (loading) {
     return (
       <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <div className="h-10 w-64 bg-gray-200 rounded mx-auto mb-4 animate-pulse"></div>
-            <div className="h-6 w-32 bg-gray-200 rounded mx-auto animate-pulse"></div>
+            <div className="h-10 w-64 bg-gray-200 rounded mx-auto mb-4 animate-pulse" />
+            <div className="h-6 w-32 bg-gray-200 rounded mx-auto animate-pulse" />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
             {[1, 2, 3, 4].map((i) => (
-              <div
-                key={i}
-                className="h-96 bg-gray-200 rounded-2xl animate-pulse"
-              ></div>
+              <div key={i} className="h-96 bg-gray-200 rounded-2xl animate-pulse" />
             ))}
           </div>
         </div>
@@ -79,21 +32,13 @@ const Dosen = () => {
     );
   }
 
-  // --- Tampilan Error (Sembunyikan Section atau Tampilkan Pesan) ---
   if (error || featuredLecturers.length === 0) {
-    // Return null untuk menyembunyikan section jika data gagal dimuat agar tidak merusak tampilan home
     return null;
   }
 
-  // --- Tampilan Utama ---
   return (
     <section id="dosen" className="py-20 bg-gray-50 overflow-hidden">
       <div className="container mx-auto px-4">
-<<<<<<< HEAD
-=======
-        
->>>>>>> 2bec0fb5386a17cc0d59bf1f67bb75a626640362
-        {/* Judul Section */}
         <motion.div
           className="text-center mb-16"
           variants={fadeUp}
@@ -105,110 +50,45 @@ const Dosen = () => {
             MEET OUR
           </h2>
           <p className="text-xl text-gray-600">LECTURERS</p>
-          <div className="w-20 h-1 bg-secondary mx-auto mt-4"></div>
+          <div className="w-20 h-1 bg-secondary mx-auto mt-4" />
         </motion.div>
 
-        {/* Grid Card Dosen */}
         <motion.div
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto"
           variants={gridContainer}
           initial="hidden"
           whileInView="visible"
-<<<<<<< HEAD
           viewport={{ once: true, amount: 0.1 }}
-=======
-          viewport={{ once: true, amount: 0.1 }} 
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto"
->>>>>>> 2bec0fb5386a17cc0d59bf1f67bb75a626640362
         >
           {featuredLecturers.map((lecturer) => (
             <motion.div
               key={lecturer.id}
-<<<<<<< HEAD
               variants={cardItem}
-              // Style Kartu: Rounded-2xl, Shadow, Border Bawah Kuning
               className="group bg-white shadow-md hover:shadow-xl transition-all overflow-hidden hover:-translate-y-1 border-b-4 border-secondary relative rounded-2xl max-w-xs mx-auto sm:max-w-none w-full"
             >
-              {/* Link ke Detail Dosen */}
-              <Link
-                to={`/dosen/${lecturer.id}`}
-                className="block h-full w-full"
-              >
+              <Link to={ROUTES.DOSEN_DETAIL(lecturer.id)} className="block h-full w-full">
                 <div className="relative overflow-hidden h-full">
-                  {/* Gambar */}
                   <img
-                    src={
-                      lecturer.foto_url ||
-                      lecturer.foto ||
-                      lecturer.photo ||
-                      "https://placehold.co/400x500/cccccc/ffffff?text=No+Image"
-                    }
+                    src={lecturer.foto_url || lecturer.foto || PLACEHOLDERS.DOSEN}
                     alt={lecturer.nama}
                     className="w-full h-96 object-cover transition-transform duration-500 group-hover:scale-105"
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src =
-                        "https://placehold.co/400x500/cccccc/ffffff?text=Foto+Dosen";
-                    }}
+                    onError={(e) => handleImageError(e, PLACEHOLDERS.DOSEN)}
                   />
 
-                  {/* Overlay Gradasi & Teks */}
                   <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-primary via-primary/90 to-transparent pt-28 pb-5 px-5 flex flex-col justify-end">
-                    {/* Nama Dosen */}
                     <h3 className="text-base font-bold text-white leading-snug mb-1 drop-shadow-md">
-                      {lecturer.nama || lecturer.name}
+                      {lecturer.nama}
                     </h3>
-
-                    {/* Jabatan */}
                     <p className="text-xs text-gray-200 font-medium leading-relaxed opacity-90">
-                      {lecturer.jabatan || lecturer.position || "Dosen"}
+                      {lecturer.jabatan || "Dosen"}
                     </p>
                   </div>
                 </div>
               </Link>
-=======
-              variants={cardItem} 
-              // Desain Kartu (Rounded, Shadow, Ramping di Mobile)
-              className="group bg-white shadow-md hover:shadow-xl transition-all overflow-hidden hover:-translate-y-1 border-b-4 border-secondary relative rounded-2xl max-w-xs mx-auto sm:max-w-none w-full" 
-            >
-              {/* --- LINK KE DETAIL DOSEN DITAMBAHKAN --- */}
-              <Link to={`/dosen/${lecturer.id}`} className="block h-full w-full">
-                <div className="relative overflow-hidden h-full">
-                  {/* Gambar Tinggi (h-96) */}
-                  <img
-                    src={lecturer.foto}
-                    alt={lecturer.nama}
-                    className="w-full h-96 object-cover transition-transform duration-500 group-hover:scale-105" 
-                    onError={(e) => { e.target.onerror = null; e.target.src="https://placehold.co/400x500/cccccc/ffffff?text=Foto+Dosen"; }}
-                  />
-                  
-                  {/* Overlay Gradasi Biru */}
-                  <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-primary via-primary/90 to-transparent pt-28 pb-5 px-5 flex flex-col justify-end"> 
-                    
-                    {/* Nama Dosen */}
-                    <h3 className="text-base font-bold text-white leading-snug mb-1 drop-shadow-md">
-                      {lecturer.nama}
-                    </h3>
-                    
-                     
-
-                    {/* Menampilkan NIP jika ada */}
-                    {lecturer.nip && (
-                      <p className="text-[10px] text-secondary font-semibold tracking-wide uppercase opacity-80">
-                         {lecturer.jabatan}
-                      </p>
-                    )}
-
-                  </div>
-                </div>
-              </Link>
-               {/* --- AKHIR LINK --- */}
->>>>>>> 2bec0fb5386a17cc0d59bf1f67bb75a626640362
             </motion.div>
           ))}
         </motion.div>
 
-        {/* Tombol Lihat Semua */}
         <motion.div
           className="text-center mt-14"
           variants={fadeUp}
@@ -217,7 +97,7 @@ const Dosen = () => {
           viewport={{ once: true, amount: 0.5 }}
         >
           <Link
-            to="/dosen"
+            to={ROUTES.DOSEN}
             className="bg-primary text-white px-10 py-3 rounded-ifups hover:bg-blue-900 transition-colors inline-block"
           >
             Lihat Semua Dosen

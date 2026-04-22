@@ -1,4 +1,4 @@
-// src/components/layout/Footer.jsx
+import { PLACEHOLDERS } from "../../constants/placeholders";
 
 const Footer = () => {
   return (
@@ -13,8 +13,7 @@ const Footer = () => {
                 className="h-10 object-contain"
                 onError={(e) => {
                   e.target.onerror = null;
-                  e.target.src =
-                    "https://placehold.co/40x40/003D8D/FECE00?text=IF";
+                  e.target.src = PLACEHOLDERS.LOGO_IF;
                 }}
               />
               <img
@@ -23,8 +22,7 @@ const Footer = () => {
                 className="h-10 object-contain"
                 onError={(e) => {
                   e.target.onerror = null;
-                  e.target.src =
-                    "https://placehold.co/120x40/003D8D/FECE00?text=UPS";
+                  e.target.src = PLACEHOLDERS.LOGO_UPS;
                 }}
               />
             </div>
@@ -147,7 +145,7 @@ const Footer = () => {
                   href="mailto:info@ifups.tegal.ac.id"
                   className="hover:text-secondary"
                 >
-                  info@ifups.tegal.ac.id
+                  info@informatika.upstegal.ac.id
                 </a>
               </p>
               <p>

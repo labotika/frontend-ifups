@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ArrowLeftCircle, FileText, Download, Calendar } from "lucide-react";
 import { motion } from "framer-motion";
 import { ROUTES } from "../../constants/routes";
@@ -9,6 +9,7 @@ import { id as localeId } from "date-fns/locale";
 import SEO from "../../components/SEO";
 
 const UnduhanIndex = () => {
+  const navigate = useNavigate();
   const { data, loading, error } = useFetch(ENDPOINTS.UNDUHAN_LIST(50));
   
   const downloadsData = data?.data || [];
@@ -20,13 +21,13 @@ const UnduhanIndex = () => {
         description="Pusat unduhan dokumen resmi, formulir akademik, dan panduan untuk mahasiswa, dosen, dan alumni Prodi Informatika UPS Tegal."
         url="/unduhan"
       />
-      <Link
-        to={ROUTES.HOME}
+      <button
+        onClick={() => navigate(-1)}
         className="fixed top-8 left-8 z-30 flex items-center gap-2 px-4 py-2 bg-white shadow-md rounded-full hover:shadow-lg transition text-primary"
       >
         <ArrowLeftCircle size={24} className="text-secondary" />
         <span className="hidden sm:inline font-medium">Kembali</span>
-      </Link>
+      </button>
 
       <div className="container mx-auto px-4 max-w-5xl">
         <motion.div

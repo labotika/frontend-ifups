@@ -82,8 +82,7 @@ function App() {
         if (response.data?.success) {
           setIsMaintenanceMode(response.data.maintenance);
         }
-      } catch (err) {
-        console.error("Gagal mengecek status maintenance:", err);
+      } catch {
         setIsMaintenanceMode(false);
       } finally {
         setIsLoading(false);

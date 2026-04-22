@@ -1,4 +1,4 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { ArrowLeftCircle, Trophy } from "lucide-react";
 import useFetch from "../../hooks/useFetch";
 import { ROUTES } from "../../constants/routes";
@@ -9,6 +9,7 @@ import SEO from "../../components/SEO";
 
 const AlumniDetail = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { data: responseData, loading, error } = useFetch(`/prestasi/${id}`);
 
   const alumnus = normalizeSingleResponse(responseData);
@@ -30,12 +31,12 @@ const AlumniDetail = () => {
         <p className="text-gray-500 mb-6">
           {error ? "Terjadi kesalahan koneksi." : "Data alumni tidak tersedia."}
         </p>
-        <Link
-          to={ROUTES.PRESTASI}
+        <button
+          onClick={() => navigate(-1)}
           className="text-secondary underline hover:text-blue-800"
         >
           Kembali ke Daftar
-        </Link>
+        </button>
       </div>
     );
   }
@@ -48,13 +49,13 @@ const AlumniDetail = () => {
         image={alumnus.foto_url || alumnus.foto}
         url={`/prestasi/${id}`}
       />
-      <Link
-        to={ROUTES.PRESTASI}
+      <button
+        onClick={() => navigate(-1)}
         className="fixed top-8 left-8 z-30 flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-full shadow-md hover:shadow-lg hover:bg-gray-100 text-primary transition-all"
       >
         <ArrowLeftCircle size={24} className="text-secondary" />
         <span className="hidden sm:inline font-medium">Kembali</span>
-      </Link>
+      </button>
 
       <div className="container mx-auto px-4 max-w-5xl">
         <div className="flex flex-col md:flex-row gap-12 items-start">

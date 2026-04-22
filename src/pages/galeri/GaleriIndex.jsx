@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   ArrowLeftCircle,
   Image as ImageIcon,
@@ -53,8 +53,7 @@ const GalleryCard = ({ item }) => {
       link.click();
       document.body.removeChild(link);
       window.URL.revokeObjectURL(objectUrl);
-    } catch (error) {
-      console.error("Download failed:", error);
+    } catch {
       window.open(item.foto_url, "_blank");
     }
   };
@@ -164,18 +163,19 @@ const GalleryCard = ({ item }) => {
 };
 
 const GaleriIndex = () => {
+  const navigate = useNavigate();
   const { data, loading, error } = useFetch(ENDPOINTS.GALERI_LIST(50));
   const galleryData = data?.data || [];
 
   return (
     <div className="py-24 bg-white min-h-screen relative overflow-hidden">
-      <Link
-        to={ROUTES.HOME}
+      <button
+        onClick={() => navigate(-1)}
         className="fixed top-8 left-8 z-30 flex items-center gap-2 px-4 py-2 bg-white shadow-md rounded-full hover:shadow-lg transition text-primary"
       >
         <ArrowLeftCircle size={24} className="text-secondary" />
         <span className="hidden sm:inline font-medium">Kembali</span>
-      </Link>
+      </button>
 
       <div className="container mx-auto px-4">
         <motion.div

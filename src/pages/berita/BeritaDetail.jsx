@@ -1,4 +1,4 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { ArrowLeftCircle, Calendar, Tag } from "lucide-react";
 import { useState, useEffect } from "react";
 import DOMPurify from "dompurify";
@@ -14,6 +14,7 @@ import SEO from "../../components/SEO";
 
 const BeritaDetail = () => {
   const { slug } = useParams();
+  const navigate = useNavigate();
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
@@ -42,13 +43,13 @@ const BeritaDetail = () => {
   if (error || !article) {
     return (
       <div className="py-24 bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen flex flex-col items-center justify-center text-center px-6 relative">
-        <Link
-          to={ROUTES.BERITA}
+        <button
+          onClick={() => navigate(-1)}
           className="absolute top-6 left-6 z-50 flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-full shadow-md hover:shadow-lg transition-all"
         >
           <ArrowLeftCircle size={22} className="text-secondary" />
           <span className="font-medium text-primary">Kembali</span>
-        </Link>
+        </button>
         <h1 className="text-5xl font-bold text-primary mb-4">404</h1>
         <p className="text-lg text-gray-600 mb-2">Berita tidak ditemukan.</p>
         <Link
@@ -70,8 +71,8 @@ const BeritaDetail = () => {
         url={`/berita/${slug}`}
         type="article"
       />
-      <Link
-        to={ROUTES.BERITA}
+      <button
+        onClick={() => navigate(-1)}
         aria-label="Kembali ke Daftar Berita"
         className="fixed top-4 left-4 md:top-6 md:left-8 z-[100] flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-full shadow-lg hover:shadow-xl hover:scale-105 text-primary transition-all duration-300 group"
       >
@@ -80,7 +81,7 @@ const BeritaDetail = () => {
           className="text-secondary group-hover:-translate-x-1 transition-transform"
         />
         <span className="font-bold text-sm" />
-      </Link>
+      </button>
 
       <div className="h-20 lg:h-24" />
 

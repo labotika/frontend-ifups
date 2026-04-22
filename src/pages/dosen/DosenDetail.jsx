@@ -1,4 +1,4 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import {
   ArrowLeftCircle,
   Hash,
@@ -18,6 +18,7 @@ import SEO from "../../components/SEO";
 
 const DosenDetail = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { data: responseData, loading, error } = useFetch(ENDPOINTS.DOSEN_BY_ID(id));
   const [isCopied, setIsCopied] = useState(false);
 
@@ -44,9 +45,9 @@ const DosenDetail = () => {
         <h1 className="text-4xl font-bold text-primary mb-4">
           Dosen Tidak Ditemukan
         </h1>
-        <Link to={ROUTES.DOSEN} className="text-secondary underline hover:text-blue-800">
+        <button onClick={() => navigate(-1)} className="text-secondary underline hover:text-blue-800">
           Kembali ke Daftar Dosen
-        </Link>
+        </button>
       </div>
     );
   }
@@ -62,13 +63,13 @@ const DosenDetail = () => {
         image={dosen.foto_url || dosen.foto}
         url={`/dosen/${id}`}
       />
-      <Link
-        to={ROUTES.DOSEN}
+      <button
+        onClick={() => navigate(-1)}
         className="fixed top-8 left-8 z-30 flex items-center gap-2 px-4 py-2 bg-white shadow-md rounded-full hover:shadow-lg transition text-primary"
       >
         <ArrowLeftCircle size={24} className="text-secondary" />
         <span className="hidden sm:inline font-medium">Kembali</span>
-      </Link>
+      </button>
 
       <div className="container mx-auto px-4 max-w-6xl">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">

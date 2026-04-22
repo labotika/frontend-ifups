@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import { PLACEHOLDERS } from "../constants/placeholders";
 
 const Organisasi = () => {
   const organisations = [
@@ -59,10 +60,7 @@ const Organisasi = () => {
                   className="h-24 w-24 object-contain group-hover:scale-110 transition-transform duration-300"
                   onError={(e) => {
                     e.target.onerror = null;
-                    e.target.src = `https://placehold.co/96x96/cccccc/ffffff?text=${org.name.substring(
-                      0,
-                      2
-                    )}`;
+                    e.target.src = PLACEHOLDERS.ORGANISASI(org.name);
                   }}
                 />
               </div>

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import { ChevronDown } from "lucide-react"; 
+import { ChevronDown } from "lucide-react";
 import { Link } from "react-router-dom";
+import { PLACEHOLDERS } from "../constants/placeholders";
 
 
 const Hero = () => {
@@ -46,7 +47,7 @@ const Hero = () => {
               src={src}
               alt={`Slide ${index + 1}`}
               className="w-full h-full object-cover"
-              onError={(e) => { e.target.onerror = null; e.target.src=`https://placehold.co/1920x1080/003D8D/FFFFFF?text=Gedung+UPS+${index+1}`; }} // Fallback
+              onError={(e) => { e.target.onerror = null; e.target.src = PLACEHOLDERS.HERO(index); }}
             />
           </div>
         ))}

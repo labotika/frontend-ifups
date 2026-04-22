@@ -49,8 +49,7 @@ const GalleryCard = ({ item }) => {
       link.click();
       document.body.removeChild(link);
       window.URL.revokeObjectURL(objectUrl);
-    } catch (error) {
-      console.error("Download failed:", error);
+    } catch {
       window.open(item.foto_url, "_blank");
     }
   };

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ArrowLeftCircle, Cpu, ShieldCheck, GraduationCap } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { ROUTES } from "../../constants/routes";
@@ -34,6 +34,7 @@ const KEY_FEATURES = [
 ];
 
 const AboutIndex = () => {
+  const navigate = useNavigate();
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef(null);
 
@@ -68,14 +69,14 @@ const AboutIndex = () => {
         description="Sejarah singkat, visi misi, dan kurikulum Program Studi Informatika Universitas Pancasakti Tegal yang berfokus pada AI dan IoT."
         url="/about"
       />
-      <Link
-        to={ROUTES.HOME}
-        aria-label="Kembali ke Halaman Utama"
+      <button
+        onClick={() => navigate(-1)}
+        aria-label="Kembali ke Halaman Sebelumnya"
         className="absolute top-12 left-10 md:left-12 z-20 flex items-center gap-2 text-primary bg-white shadow-md px-4 py-2 rounded-full hover:bg-gray-100 hover:shadow-lg hover:text-secondary transition-all"
       >
         <ArrowLeftCircle size={24} className="text-secondary" />
         <span className="hidden sm:inline font-medium">Kembali</span>
-      </Link>
+      </button>
 
       <div className="container mx-auto max-w-5xl px-4">
         <div

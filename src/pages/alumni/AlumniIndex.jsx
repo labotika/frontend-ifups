@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ArrowLeftCircle } from "lucide-react";
 import { motion } from "framer-motion";
 import useFetch from "../../hooks/useFetch";
@@ -11,6 +11,7 @@ import { handleImageError } from "../../utils/imageUrl";
 import SEO from "../../components/SEO";
 
 const AlumniIndex = () => {
+  const navigate = useNavigate();
   const { data: responseData, loading, error } = useFetch(ENDPOINTS.PRESTASI_LIST());
 
   const alumniList = normalizeListResponse(responseData);
@@ -26,24 +27,24 @@ const AlumniIndex = () => {
   if (error || alumniList.length === 0) {
     return (
       <div className="py-24 bg-white min-h-screen relative flex flex-col items-center justify-center text-center px-4">
-        <Link
-          to={ROUTES.HOME}
-          aria-label="Kembali ke Halaman Utama"
+        <button
+          onClick={() => navigate(-1)}
+          aria-label="Kembali ke Halaman Sebelumnya"
           className="absolute top-12 left-10 md:left-12 z-20 flex items-center gap-2 text-primary bg-white shadow-md px-4 py-2 rounded-full hover:bg-gray-100 hover:shadow-lg hover:text-secondary transition-all"
         >
           <ArrowLeftCircle size={24} className="text-secondary" />
           <span className="hidden sm:inline font-medium">Kembali</span>
-        </Link>
+        </button>
         <h1 className="text-4xl font-bold text-primary mb-4">Oops!</h1>
         <p className="text-xl text-gray-600">
           Data alumni tidak dapat dimuat atau belum tersedia.
         </p>
-        <Link
-          to={ROUTES.HOME}
+        <button
+          onClick={() => navigate(-1)}
           className="mt-6 px-6 py-2 bg-primary text-white rounded-full hover:bg-blue-800 transition-colors"
         >
-          Kembali ke Halaman Utama
-        </Link>
+          Kembali ke Halaman Sebelumnya
+        </button>
       </div>
     );
   }
@@ -55,14 +56,14 @@ const AlumniIndex = () => {
         description="Daftar profil alumni dan berbagai prestasi membanggakan dari mahasiswa Program Studi Informatika Universitas Pancasakti Tegal."
         url="/prestasi"
       />
-      <Link
-        to={ROUTES.HOME}
-        aria-label="Kembali ke Halaman Utama"
+      <button
+        onClick={() => navigate(-1)}
+        aria-label="Kembali ke Halaman Sebelumnya"
         className="absolute top-12 left-10 md:left-12 z-20 flex items-center gap-2 text-primary bg-white shadow-md px-4 py-2 rounded-full hover:bg-gray-100 hover:shadow-lg "
       >
         <ArrowLeftCircle size={24} className="text-secondary" />
         <span className="hidden sm:inline font-medium">Kembali</span>
-      </Link>
+      </button>
 
       <div className="container mx-auto px-4">
         <motion.div

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ArrowLeftCircle, Search, CalendarDays } from "lucide-react";
 import { useState } from "react";
 import useFetch from "../../hooks/useFetch";
@@ -12,6 +12,7 @@ import { handleImageError } from "../../utils/imageUrl";
 import SEO from "../../components/SEO";
 
 const BeritaIndex = () => {
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const { data: responseData, loading, error } = useFetch(ENDPOINTS.BERITA_LIST());
 
@@ -33,9 +34,9 @@ const BeritaIndex = () => {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center text-red-500 px-4 text-center">
         <p className="text-xl font-bold mb-2">Gagal memuat berita</p>
-        <Link to={ROUTES.HOME} className="text-primary hover:underline">
+        <button onClick={() => navigate(-1)} className="text-primary hover:underline">
           Kembali ke Beranda
-        </Link>
+        </button>
       </div>
     );
   }
@@ -47,14 +48,14 @@ const BeritaIndex = () => {
         description="Kumpulan berita, artikel, dan pengumuman terbaru dari Program Studi Informatika Universitas Pancasakti Tegal."
         url="/berita"
       />
-      <Link
-        to={ROUTES.HOME}
-        aria-label="Kembali ke Halaman Utama"
+      <button
+        onClick={() => navigate(-1)}
+        aria-label="Kembali ke Halaman Sebelumnya"
         className="fixed top-6 left-6 z-30 flex items-center gap-2 text-primary bg-white border border-gray-200 px-4 py-2 rounded-full shadow-md hover:shadow-lg hover:bg-gray-100 transition-all"
       >
         <ArrowLeftCircle size={22} className="text-secondary" />
         <span className="hidden sm:inline font-medium">Kembali</span>
-      </Link>
+      </button>
 
       <div className="container mx-auto px-4 max-w-6xl">
         <div className="text-center mb-12">

@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ROUTES } from "../../constants/routes";
+import { PLACEHOLDERS } from "../../constants/placeholders";
 
 const HASH_TO_ROUTE_MAP = {
   "#dosen": ROUTES.DOSEN,
@@ -163,13 +164,13 @@ const Navbar = ({ onToggleCollapse }) => {
                 src="/Logo IFUPS.png"
                 alt="Logo"
                 className="w-10 h-10 object-contain"
-                onError={(e) => { e.target.onerror = null; e.target.src = "https://placehold.co/40x40/003D8D/FECE00?text=IF"; }}
+                onError={(e) => { e.target.onerror = null; e.target.src = PLACEHOLDERS.LOGO_IF; }}
               />
               <img
                 src="/WeAreIFUPS.svg"
                 alt="Fakultas Teknik Informatika"
                 className="w-12 h-12 object-contain"
-                onError={(e) => { e.target.onerror = null; e.target.src = "https://placehold.co/48x48/003D8D/FECE00?text=UPS"; }}
+                onError={(e) => { e.target.onerror = null; e.target.src = PLACEHOLDERS.LOGO_UPS; }}
               />
             </div>
           )}

@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { PLACEHOLDERS } from "../constants/placeholders";
 
 
 const About = () => {
@@ -68,8 +69,8 @@ const About = () => {
             <img
               src="/gedungUps2.jpg" 
               alt="Mahasiswa Informatika UPS Tegal"
-              className="object-cover w-full h-full  shadow-2xl aspect-[4/3]" // Shadow lebih tebal
-              onError={(e) => { e.target.onerror = null; e.target.src="https://placehold.co/600x450/cccccc/ffffff?text=Gedung+UPS"; }}
+              className="object-cover w-full h-full shadow-2xl aspect-[4/3]"
+              onError={(e) => { e.target.onerror = null; e.target.src = PLACEHOLDERS.GEDUNG; }}
             />
             
           </div>
@@ -97,7 +98,7 @@ const About = () => {
             
             
             <Link 
-              to="/about" // Mengarah ke halaman /about
+              to="/about"
               className="inline-block bg-secondary text-primary font-semibold px-8 py-3 rounded-ifups hover:bg-yellow-400 transition-colors mt-8"
             >
               Selengkapnya

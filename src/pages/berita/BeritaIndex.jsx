@@ -8,7 +8,7 @@ import { ENDPOINTS } from "../../constants/endpoints";
 import { ROUTES } from "../../constants/routes";
 import { PLACEHOLDERS } from "../../constants/placeholders";
 import { normalizeListResponse } from "../../utils/normalizeResponse";
-import { handleImageError } from "../../utils/imageUrl";
+import { resolveImageUrl, handleImageError } from "../../utils/imageUrl";
 import SEO from "../../components/SEO";
 
 const BeritaIndex = () => {
@@ -95,7 +95,7 @@ const BeritaIndex = () => {
                     className="block w-full h-full"
                   >
                     <img
-                      src={item.foto_url || PLACEHOLDERS.BERITA}
+                      src={resolveImageUrl(item.foto_url, PLACEHOLDERS.BERITA)}
                       alt={item.judul}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                       onError={(e) => handleImageError(e, PLACEHOLDERS.BERITA_ERROR)}

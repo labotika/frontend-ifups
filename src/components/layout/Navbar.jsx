@@ -1,9 +1,22 @@
 import { useState, useEffect } from "react";
 import {
-  Menu, X, ChevronsLeft, ChevronsRight,
-  Home, Info, Users, GraduationCap,
-  Briefcase, Newspaper, Image, Mail,
-  Target, Download, ChevronDown, ChevronRight, FileText,
+  Menu,
+  X,
+  ChevronsLeft,
+  ChevronsRight,
+  Home,
+  Info,
+  Users,
+  GraduationCap,
+  Briefcase,
+  Newspaper,
+  Image,
+  Mail,
+  Target,
+  Download,
+  ChevronDown,
+  ChevronRight,
+  FileText,
 } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ROUTES } from "../../constants/routes";
@@ -28,7 +41,7 @@ const NAV_ITEMS = [
   { name: "Tentang", href: "#tentang", icon: Info },
   { name: "Organisasi", href: "#organisasi", icon: Users },
   { name: "Dosen", href: "#dosen", icon: GraduationCap },
-  { name: "Alumni", href: "#alumni", icon: Briefcase },
+  { name: "Aslab", href: "#alumni", icon: Briefcase },
   { name: "Berita", href: "#berita", icon: Newspaper },
   { name: "Galeri", href: "#galeri", icon: Image },
   { name: "Unduhan", href: "#unduhan", icon: Download },
@@ -48,8 +61,8 @@ const Navbar = ({ onToggleCollapse }) => {
 
   useEffect(() => {
     if (!isHomePage) {
-      const matchingHash = Object.entries(ROUTE_TO_HASH_MAP).find(
-        ([route]) => location.pathname.startsWith(route)
+      const matchingHash = Object.entries(ROUTE_TO_HASH_MAP).find(([route]) =>
+        location.pathname.startsWith(route)
       );
       setActiveHash(matchingHash ? matchingHash[1] : "");
       if (onToggleCollapse) onToggleCollapse(false);
@@ -155,7 +168,9 @@ const Navbar = ({ onToggleCollapse }) => {
 
       <aside
         className={`fixed top-0 left-0 h-full ${sidebarWidthClass} shadow-xl z-40 bg-white transition-all duration-300 flex flex-col
-        ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0`}
+        ${
+          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+        } lg:translate-x-0`}
       >
         <div className="relative flex items-center justify-between px-4 py-3 border-b border-gray-200 bg-blue-800 flex-shrink-0">
           {!isCollapsed && (
@@ -164,13 +179,19 @@ const Navbar = ({ onToggleCollapse }) => {
                 src="/Logo IFUPS.png"
                 alt="Logo"
                 className="w-10 h-10 object-contain"
-                onError={(e) => { e.target.onerror = null; e.target.src = PLACEHOLDERS.LOGO_IF; }}
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = PLACEHOLDERS.LOGO_IF;
+                }}
               />
               <img
                 src="/WeAreIFUPS.svg"
                 alt="Fakultas Teknik Informatika"
                 className="w-12 h-12 object-contain"
-                onError={(e) => { e.target.onerror = null; e.target.src = PLACEHOLDERS.LOGO_UPS; }}
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = PLACEHOLDERS.LOGO_UPS;
+                }}
               />
             </div>
           )}
@@ -181,7 +202,11 @@ const Navbar = ({ onToggleCollapse }) => {
             }`}
             onClick={handleCollapse}
           >
-            {isCollapsed ? <ChevronsRight size={24} /> : <ChevronsLeft size={24} />}
+            {isCollapsed ? (
+              <ChevronsRight size={24} />
+            ) : (
+              <ChevronsLeft size={24} />
+            )}
           </button>
 
           {isSidebarOpen && (
@@ -216,13 +241,20 @@ const Navbar = ({ onToggleCollapse }) => {
                   title={item.name}
                 >
                   <div className="flex items-center">
-                    <Icon size={24} className={isCollapsed ? "mx-auto" : "mr-3"} />
+                    <Icon
+                      size={24}
+                      className={isCollapsed ? "mx-auto" : "mr-3"}
+                    />
                     {!isCollapsed && <span>{item.name}</span>}
                   </div>
 
                   {!isCollapsed && item.isDropdown && (
                     <div className="text-gray-400">
-                      {isOpen ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
+                      {isOpen ? (
+                        <ChevronDown size={16} />
+                      ) : (
+                        <ChevronRight size={16} />
+                      )}
                     </div>
                   )}
                 </a>

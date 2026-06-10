@@ -22,7 +22,10 @@ const Alumni = () => {
             <div className="h-8 w-64 bg-gray-200 rounded mb-8" />
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 w-full max-w-7xl">
               {[1, 2, 3, 4].map((i) => (
-                <div key={i} className="h-96 bg-gray-200 rounded-2xl animate-pulse" />
+                <div
+                  key={i}
+                  className="h-96 bg-gray-200 rounded-2xl animate-pulse"
+                />
               ))}
             </div>
           </div>
@@ -46,7 +49,7 @@ const Alumni = () => {
           viewport={{ once: true, amount: 0.5 }}
         >
           <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">
-            MAHASISWA BERPRESTASI
+            ASISTEN LAB INFORMATIKA
           </h2>
           <p className="text-xl text-gray-600">Kebanggaan Prodi Informatika</p>
           <div className="w-20 h-1 bg-secondary mx-auto mt-4" />
@@ -60,10 +63,7 @@ const Alumni = () => {
           viewport={{ once: true, amount: 0.1 }}
         >
           {featuredPrestasi.map((item) => (
-            <motion.div
-              key={item.id}
-              variants={cardItem}
-            >
+            <motion.div key={item.id} variants={cardItem}>
               <Link
                 to={`${ROUTES.PRESTASI}/${item.id}`}
                 className="group bg-white shadow-md hover:shadow-xl transition-all overflow-hidden hover:-translate-y-1 border-b-4 border-secondary relative rounded-2xl block h-full max-w-xs mx-auto sm:max-w-none w-full"

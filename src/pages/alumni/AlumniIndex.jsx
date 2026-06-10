@@ -12,7 +12,11 @@ import SEO from "../../components/SEO";
 
 const AlumniIndex = () => {
   const navigate = useNavigate();
-  const { data: responseData, loading, error } = useFetch(ENDPOINTS.PRESTASI_LIST());
+  const {
+    data: responseData,
+    loading,
+    error,
+  } = useFetch(ENDPOINTS.PRESTASI_LIST());
 
   const alumniList = normalizeListResponse(responseData);
 
@@ -51,7 +55,7 @@ const AlumniIndex = () => {
 
   return (
     <div className="py-24 bg-white min-h-screen relative overflow-hidden">
-      <SEO 
+      <SEO
         title="Alumni & Prestasi"
         description="Daftar profil alumni dan berbagai prestasi membanggakan dari mahasiswa Program Studi Informatika Universitas Pancasakti Tegal."
         url="/prestasi"
@@ -74,11 +78,9 @@ const AlumniIndex = () => {
           viewport={{ once: true, amount: 0.5 }}
         >
           <h1 className="text-4xl md:text-5xl font-bold text-primary mb-4">
-            Alumni Kami
+            Asisten Lab Informatika
           </h1>
-          <p className="text-xl text-gray-600">
-            Jejak Lulusan Prodi Informatika Universitas Pancasakti Tegal
-          </p>
+          <p className="text-xl text-gray-600">Kebanggaan Prodi Informatika</p>
           <div className="w-24 h-1 bg-secondary mx-auto mt-6" />
         </motion.div>
 
@@ -90,10 +92,7 @@ const AlumniIndex = () => {
           viewport={{ once: true, amount: 0.1 }}
         >
           {alumniList.map((alumnus) => (
-            <motion.div
-              key={alumnus.id}
-              variants={cardItem}
-            >
+            <motion.div key={alumnus.id} variants={cardItem}>
               <Link
                 to={`${ROUTES.PRESTASI}/${alumnus.id}`}
                 className="group bg-white shadow-md hover:shadow-xl transition-all overflow-hidden hover:-translate-y-1 border-b-4 border-secondary relative rounded-2xl block h-full max-w-xs mx-auto sm:max-w-none w-full"
@@ -111,7 +110,9 @@ const AlumniIndex = () => {
                       {alumnus.nama}
                     </h3>
                     <p className="text-xs text-blue-900 font-medium leading-relaxed opacity-90">
-                      {alumnus.pekerjaan || alumnus.kejuaraan || alumnus.message}
+                      {alumnus.pekerjaan ||
+                        alumnus.kejuaraan ||
+                        alumnus.message}
                     </p>
                   </div>
                 </div>

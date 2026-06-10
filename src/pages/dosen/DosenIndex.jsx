@@ -12,7 +12,11 @@ import SEO from "../../components/SEO";
 
 const DosenIndex = () => {
   const navigate = useNavigate();
-  const { data: responseData, loading, error } = useFetch(ENDPOINTS.DOSEN_LIST());
+  const {
+    data: responseData,
+    loading,
+    error,
+  } = useFetch(ENDPOINTS.DOSEN_LIST());
 
   const dosenList = normalizeListResponse(responseData);
 
@@ -51,7 +55,7 @@ const DosenIndex = () => {
 
   return (
     <div className="py-24 bg-gray-50 min-h-screen relative overflow-hidden">
-      <SEO 
+      <SEO
         title="Staf Pengajar"
         description="Kenali profil, bidang keahlian, dan jabatan fungsional dari staf pengajar di Program Studi Informatika Universitas Pancasakti Tegal."
         url="/dosen"
@@ -76,7 +80,7 @@ const DosenIndex = () => {
             Staf Pengajar
           </h1>
           <p className="text-xl text-gray-600">
-            Program Studi Informatika Universitas Pancasakti Tegal
+            Dosen Program Studi Informatika
           </p>
           <div className="w-24 h-1 bg-secondary mx-auto mt-6" />
         </motion.div>
@@ -89,14 +93,20 @@ const DosenIndex = () => {
           viewport={{ once: true, amount: 0.1 }}
         >
           {dosenList.map((dosen) => {
-            const jabatan = dosen.jabatan_fungsional || dosen.jabatanFungsional || dosen.jabatan;
+            const jabatan =
+              dosen.jabatan_fungsional ||
+              dosen.jabatanFungsional ||
+              dosen.jabatan;
             return (
               <motion.div
                 key={dosen.id}
                 variants={cardItem}
                 className="group bg-white shadow-md hover:shadow-xl transition-all overflow-hidden hover:-translate-y-1 border-b-4 border-secondary relative rounded-2xl max-w-xs mx-auto sm:max-w-none w-full"
               >
-                <Link to={ROUTES.DOSEN_DETAIL(dosen.id)} className="block h-full w-full">
+                <Link
+                  to={ROUTES.DOSEN_DETAIL(dosen.id)}
+                  className="block h-full w-full"
+                >
                   <div className="relative overflow-hidden h-full">
                     <img
                       src={dosen.foto_url || dosen.foto || PLACEHOLDERS.DOSEN}

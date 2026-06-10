@@ -24,7 +24,10 @@ const Dosen = () => {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
             {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="h-96 bg-gray-200 rounded-2xl animate-pulse" />
+              <div
+                key={i}
+                className="h-96 bg-gray-200 rounded-2xl animate-pulse"
+              />
             ))}
           </div>
         </div>
@@ -47,9 +50,11 @@ const Dosen = () => {
           viewport={{ once: true, amount: 0.5 }}
         >
           <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">
-            MEET OUR
+            STAF PENGAJAR
           </h2>
-          <p className="text-xl text-gray-600">LECTURERS</p>
+          <p className="text-xl text-gray-600">
+            Dosen Program Studi Informatika
+          </p>
           <div className="w-20 h-1 bg-secondary mx-auto mt-4" />
         </motion.div>
 
@@ -66,10 +71,15 @@ const Dosen = () => {
               variants={cardItem}
               className="group bg-white shadow-md hover:shadow-xl transition-all overflow-hidden hover:-translate-y-1 border-b-4 border-secondary relative rounded-2xl max-w-xs mx-auto sm:max-w-none w-full"
             >
-              <Link to={ROUTES.DOSEN_DETAIL(lecturer.id)} className="block h-full w-full">
+              <Link
+                to={ROUTES.DOSEN_DETAIL(lecturer.id)}
+                className="block h-full w-full"
+              >
                 <div className="relative overflow-hidden h-full">
                   <img
-                    src={lecturer.foto_url || lecturer.foto || PLACEHOLDERS.DOSEN}
+                    src={
+                      lecturer.foto_url || lecturer.foto || PLACEHOLDERS.DOSEN
+                    }
                     alt={lecturer.nama}
                     className="w-full h-96 object-cover transition-transform duration-500 group-hover:scale-105"
                     onError={(e) => handleImageError(e, PLACEHOLDERS.DOSEN)}

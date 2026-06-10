@@ -7,12 +7,7 @@ const Hero = () => {
   const [currentImage, setCurrentImage] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
   const [direction, setDirection] = useState(1);
-  const images = [
-    "/gedungUps1.jpg",
-    "/gedungUps2.png",
-    "/gedungUps3.png",
-    "/gedungUps4.png",
-  ];
+  const images = ["/gedungUpss2.png", "/gedungUpss3.png", "/gedungUpss4.png"];
 
   useEffect(() => {
     setIsVisible(true);

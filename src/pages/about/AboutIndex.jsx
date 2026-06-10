@@ -20,7 +20,8 @@ const FeaturePoint = ({ icon, title, delay, isVisible }) => {
       <div>
         <h4 className="text-xl font-semibold text-primary mb-1">{title}</h4>
         <p className="text-gray-600">
-          Deskripsi singkat tentang poin keunggulan ini untuk meyakinkan pengunjung.
+          Deskripsi singkat tentang poin keunggulan ini untuk meyakinkan
+          pengunjung.
         </p>
       </div>
     </div>
@@ -63,8 +64,11 @@ const AboutIndex = () => {
   const lastFeatureDelay = KEY_FEATURES[KEY_FEATURES.length - 1].delay;
 
   return (
-    <div ref={sectionRef} className="py-24 bg-white min-h-screen relative overflow-hidden">
-      <SEO 
+    <div
+      ref={sectionRef}
+      className="py-24 bg-white min-h-screen relative overflow-hidden"
+    >
+      <SEO
         title="Tentang Informatika UPS"
         description="Sejarah singkat, visi misi, dan kurikulum Program Studi Informatika Universitas Pancasakti Tegal yang berfokus pada AI dan IoT."
         url="/about"
@@ -101,7 +105,7 @@ const AboutIndex = () => {
           }`}
         >
           <img
-            src="/gedungUps2.jpg"
+            src="/gedungFtik.png"
             alt="Kampus Universitas Pancasakti Tegal"
             className="w-full h-auto aspect-video object-cover"
             onError={(e) => handleImageError(e, PLACEHOLDERS.GEDUNG)}
@@ -115,23 +119,26 @@ const AboutIndex = () => {
         >
           <h2>Sejarah Singkat & Komitmen</h2>
           <p>
-            Program Studi Informatika di Universitas Pancasakti Tegal (UPS) didirikan untuk
-            menjawab tantangan era digital dan kebutuhan industri akan talenta teknologi yang
-            kompeten. Sejak awal berdirinya, kami berkomitmen untuk menyediakan pendidikan
-            berkualitas tinggi yang tidak hanya fokus pada teori, tetapi juga pada penerapan
-            praktis di dunia nyata.
+            Program Studi Informatika di Universitas Pancasakti Tegal (UPS)
+            didirikan untuk menjawab tantangan era digital dan kebutuhan
+            industri akan talenta teknologi yang kompeten. Sejak awal
+            berdirinya, kami berkomitmen untuk menyediakan pendidikan
+            berkualitas tinggi yang tidak hanya fokus pada teori, tetapi juga
+            pada penerapan praktis di dunia nyata.
           </p>
           <p>
             Dengan Visi kami untuk menjadi program studi unggul di bidang{" "}
-            <strong>AI (Artificial Intelligence) dan IoT (Internet of Things)</strong> pada
-            tahun 2028, kami terus memperbarui kurikulum, meningkatkan fasilitas, dan membangun
-            kemitraan strategis.
+            <strong>
+              AI (Artificial Intelligence) dan IoT (Internet of Things)
+            </strong>{" "}
+            pada tahun 2028, kami terus memperbarui kurikulum, meningkatkan
+            fasilitas, dan membangun kemitraan strategis.
           </p>
 
           <h2 className="mt-12">Keunggulan Kami</h2>
           <p>
-            Kami merancang program kami untuk memastikan lulusan siap bersaing dan menjadi
-            pemimpin di industri teknologi.
+            Kami merancang program kami untuk memastikan lulusan siap bersaing
+            dan menjadi pemimpin di industri teknologi.
           </p>
         </article>
 
@@ -155,9 +162,10 @@ const AboutIndex = () => {
         >
           <h2>Bergabunglah Dengan Kami</h2>
           <p>
-            Kami mengundang Anda untuk menjadi bagian dari komunitas pembelajar yang dinamis dan
-            inovatif. Jelajahi bagaimana Program Studi Informatika UPS Tegal dapat menjadi
-            langkah awal kesuksesan karir Anda di dunia teknologi.
+            Kami mengundang Anda untuk menjadi bagian dari komunitas pembelajar
+            yang dinamis dan inovatif. Jelajahi bagaimana Program Studi
+            Informatika UPS Tegal dapat menjadi langkah awal kesuksesan karir
+            Anda di dunia teknologi.
           </p>
         </article>
       </div>
